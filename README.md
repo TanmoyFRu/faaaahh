@@ -1,153 +1,224 @@
-# FAAAAAAHHH
+<p align="center">
+  <img src="assets/hero-banner.svg" alt="FAAAAAAHHH — Auditory feedback for diagnostic chaos" width="100%"/>
+</p>
 
-```
-   ███████╗ █████╗  █████╗  █████╗  █████╗ ██╗  ██╗██╗  ██╗██╗  ██╗
-   ██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗██║  ██║██║  ██║██║  ██║
-   █████╗  ███████║███████║███████║███████║███████║███████║███████║
-   ██╔══╝  ██╔══██║██╔══██║██╔══██║██╔══██║██╔══██║██╔══██║██╔══██║
-   ██║     ██║  ██║██║  ██║██║  ██║██║  ██║██║  ██║██║  ██║██║  ██║
-   ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
-```
-
-ok so hear me out.
-
-you know that moment when you're writing code at 3am, your eyes are bleeding, you've been staring at the same function for 2 hours, and then you see it — the red squiggly line. another error. another one. and another one.
-
-wouldn't it be absolutely unhinged if your editor just went **FAAAAAAHHH** every time that happened?
-
-yeah. that's what this does.
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=tanmoy-debnath.faaaaaahhh">
+    <img src="https://img.shields.io/visual-studio-marketplace/v/tanmoy-debnath.faaaaaahhh?style=flat-square&color=FF3B3B&label=Marketplace" alt="VS Code Marketplace"/>
+  </a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=tanmoy-debnath.faaaaaahhh">
+    <img src="https://img.shields.io/visual-studio-marketplace/i/tanmoy-debnath.faaaaaahhh?style=flat-square&color=2A2E3A&label=Installs" alt="Installs"/>
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-F5F5F5?style=flat-square" alt="License"/>
+  </a>
+</p>
 
 ---
 
-## what even is this
+## What is this
 
-it plays the faaah meme sound every time you get an error in vs code. that's it. that's the extension.
+A Visual Studio Code extension that plays the **FAAAH** meme sound every time an error appears in your editor. Warnings get a softer **AA** instead.
 
-oh and it plays "aa" on warnings because warnings deserve emotional damage too, just... gentler.
+Every error source VS Code exposes is covered: red squiggly underlines, failed build tasks, crashed debug sessions. If your code is broken, you will hear about it.
 
-the best part? **sounds overlap.** so if you paste in some horrific code with 15 errors, you get 15 faaah's playing on top of each other like some cursed orchestra. it's genuinely the funniest thing you'll hear while debugging at 4am.
+The sounds overlap by default. Five errors at once means five simultaneous FAAAH sounds layered on top of each other. This is intentional.
 
-## the backstory nobody asked for
+---
 
-so i was sitting there right. debugging some typescript. i had like 47 errors because i renamed one interface and the entire project decided to have a breakdown.
+## How it works
 
-and i thought — you know what would make this moment worse? **sound effects.**
+<p align="center">
+  <img src="assets/architecture.svg" alt="Architecture diagram" width="100%"/>
+</p>
 
-so i built this thing in one sitting fueled by spite and instant noodles. no regrets. maybe some regrets. the overlapping feature was definitely a mistake. i'm keeping it.
+The extension registers listeners on three VS Code event channels:
 
-## ok but what does it actually do
+| Source | API | Trigger |
+|---|---|---|
+| Diagnostic errors | `onDidChangeDiagnostics` | New error count exceeds previous count for a given URI |
+| Task failures | `onDidEndTaskProcess` | Task exits with non-zero code |
+| Debug crashes | `onDidTerminateDebugSession` | Debug session terminates |
+| Warnings | `onDidChangeDiagnostics` | New warning count exceeds previous for a given URI |
+
+When an event fires, the sound player spawns an independent OS-level process to play the `.wav` file. Each sound runs in its own process — no queue, no cancellation, no mercy.
 
 ```
-you write bad code   →  FAAAAAAHHH
-you get a warning    →  aaaaaa
-your build fails     →  FAAAAAAHHH
-your debug crashes   →  FAAAAAAHHH
-you write MORE bad   →  FAAAAAAHHH FAAAAAAHHH FAAAAAAHHH
-  code at once          (yes they all play at the same time)
+error 1:  FAAAAAAHHH---------------------
+error 2:    FAAAAAAHHH-------------------
+error 3:      FAAAAAAHHH-----------------
+error 4:        FAAAAAAHHH---------------
+error 5:          FAAAAAAHHH-------------
 ```
 
-it listens to literally every error source vs code has:
-- **red squiggly lines** (type errors, syntax errors, lint errors, you name it)
-- **build tasks that fail** (npm run build and it exits with code 1? faaah.)
-- **debug sessions that crash** (your app threw an exception and died? faaah.)
-- **warnings too** (unused variable? aa. implicit any? aa.)
+---
 
-## install it (if you dare)
+## Install
 
-**from the marketplace:**
-1. open extensions tab (`Ctrl+Shift+X`)
-2. search "Faaaaaahhh"
-3. install
-4. immediately regret it
+**Marketplace**
 
-**from vsix:**
+1. Open the Extensions panel (`Ctrl+Shift+X`)
+2. Search `Faaaaaahhh`
+3. Install
+
+**Manual**
+
 ```
 code --install-extension faaaaaahhh-0.0.1.vsix
 ```
 
-## how to use
+---
 
-literally just write code. if your code is bad (and let's be honest), you'll hear it.
+## Usage
 
-**commands** (hit `Ctrl+Shift+P`):
+Write code. If the code is bad, you will hear it.
 
-| command | what it does |
+### Commands
+
+Open the Command Palette (`Ctrl+Shift+P`):
+
+| Command | Description |
 |---|---|
-| `Faaaaaahhh: Toggle Sound On/Off` | for when you need a break from the roasting |
-| `Faaaaaahhh: Test Error Sound (FAAAH)` | test it. go on. you know you want to. |
-| `Faaaaaahhh: Test Warning Sound (AA)` | the softer, sadder cousin |
+| `Faaaaaahhh: Toggle Sound On/Off` | Enable or disable all sounds |
+| `Faaaaaahhh: Test Error Sound (FAAAH)` | Play the error sound once |
+| `Faaaaaahhh: Test Warning Sound (AA)` | Play the warning sound once |
 
-there's a little **FAAAH** button in your status bar (bottom right). click it to shut it up when your coworkers start giving you looks.
+### Status Bar
 
-## settings
-
-| setting | default | what it means |
-|---|---|---|
-| `faaaaaahhh.enabled` | `true` | turn the whole thing on/off. setting this to false is quitter behavior but i respect it |
-| `faaaaaahhh.warningsEnabled` | `true` | warnings get the "aa" sound. disable if you only want the big faaah |
-| `faaaaaahhh.cooldownMs` | `0` | time between sounds in ms. 0 means no mercy — everything overlaps. set to like 3000 if you want to stay sane |
-| `faaaaaahhh.customSoundPath` | `""` | put a path to your own .wav file here. record your friend going "bruh" and put that in. i dare you |
-| `faaaaaahhh.customWarningSoundPath` | `""` | same thing but for warnings |
-
-## the overlap thing deserves its own section
-
-so by default, cooldown is 0. that means if 5 errors appear at once:
-
-```
-error 1:  FAAAAAAHHH─────────────
-error 2:    FAAAAAAHHH───────────
-error 3:      FAAAAAAHHH─────────
-error 4:        FAAAAAAHHH───────
-error 5:          FAAAAAAHHH─────
-              ^
-         this is where you start laughing
-         and also where your speakers start crying
-```
-
-each sound is its own process. they don't cancel each other. they stack. it's chaos and it's beautiful.
-
-if this is too much for you (fair), set `cooldownMs` to something like 3000.
-
-## faq
-
-**does this work with python/rust/go/java/etc?**
-if vs code can find errors in it, we will faaah at it. we don't discriminate against any language. bad code is bad code.
-
-**my coworkers are mad at me**
-click the status bar button to toggle off. or get headphones. or find coworkers with a better sense of humor.
-
-**can i use my own sounds?**
-yep. `faaaaaahhh.customSoundPath` takes any `.wav` file. some suggestions:
-- your friend's disappointed sigh
-- a clip of gordon ramsay saying "it's RAW"
-- the windows xp error sound
-- a recording of your tech lead saying "let's circle back on that"
-
-**how do i make it stop**
-`Ctrl+Shift+P` → `Faaaaaahhh: Toggle Sound On/Off`. or uninstall it. or write code that doesn't have errors (good luck with that).
-
-**is this a joke extension?**
-yes. but it works really well. so maybe the joke is on us.
-
-**does this use AI?**
-no. it's literally an if statement that goes "is there a new error? ok play the sound". not everything needs to be AI. sometimes a wav file and a dream is enough.
-
-## works on
-
-- **windows** — powershell plays the wav
-- **mac** — afplay does the job
-- **linux** — paplay or aplay, whatever you've got
-
-## wanna contribute?
-
-found a bug? in the extension that plays sounds when you have bugs? that's poetry.
-
-open an issue or pr at [github.com/tanmoy-debnath/faaaaaahhh](https://github.com/tanmoy-debnath/faaaaaahhh)
-
-## license
-
-MIT. do whatever you want with it. fork it, mod it, add reverb to the faaah, i don't care.
+A **FAAAH** button sits in the bottom-right status bar. Click it to toggle on/off. The icon switches between `unmute` and `mute` to reflect the current state.
 
 ---
 
-made at 3am by someone who should've been fixing bugs instead of adding sound effects to them.
+## Configuration
+
+All settings live under `faaaaaahhh.*` in your VS Code settings.
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `faaaaaahhh.enabled` | `boolean` | `true` | Master switch for all sounds |
+| `faaaaaahhh.warningsEnabled` | `boolean` | `true` | Play AA on warnings |
+| `faaaaaahhh.cooldownMs` | `number` | `0` | Minimum ms between sounds. `0` = no cooldown, full overlap |
+| `faaaaaahhh.customSoundPath` | `string` | `""` | Absolute path to a custom `.wav` for errors |
+| `faaaaaahhh.customWarningSoundPath` | `string` | `""` | Absolute path to a custom `.wav` for warnings |
+
+**Overlap behavior**: With `cooldownMs` set to `0` (default), every new error spawns its own audio process immediately. Set it to `3000` or higher if you want a grace period between sounds.
+
+**Custom sounds**: Point `customSoundPath` to any `.wav` file on your system. The extension does not transcode — the file must be a valid WAV.
+
+---
+
+## Platform support
+
+| Platform | Audio backend | Notes |
+|---|---|---|
+| Windows | `powershell -File play.ps1` | Uses `System.Media.SoundPlayer`. Each sound is a separate PowerShell process. |
+| macOS | `afplay` | Native. No dependencies. |
+| Linux | `paplay` / `aplay` | Falls back to `aplay` if PulseAudio is unavailable. |
+
+---
+
+## Project structure
+
+```
+faaaaaahhh/
+  src/
+    extension.ts               Entry point. Registers watchers, commands, status bar.
+    config.ts                  Reads workspace configuration.
+    player/
+      soundPlayer.ts           Cross-platform audio playback. Process-per-sound.
+    watchers/
+      diagnosticWatcher.ts     Tracks error/warning counts per URI. Fires on increase.
+      taskWatcher.ts           Listens for non-zero task exit codes.
+      debugWatcher.ts          Listens for debug session termination.
+  media/
+    faah.wav                   Default error sound.
+    aa.wav                     Default warning sound.
+    play.ps1                   Windows helper script for PowerShell playback.
+  assets/
+    hero-banner.svg            Repository banner.
+    architecture.svg           Architecture diagram.
+  dist/
+    extension.js               Bundled output (esbuild).
+```
+
+---
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- VS Code 1.85+
+
+### Build
+
+```bash
+npm install
+npm run build
+```
+
+### Test locally
+
+1. Open the project in VS Code
+2. Press `F5` to launch the Extension Development Host
+3. In the new window, open any project and introduce errors
+4. Check the **Output** panel (channel: `Faaaaaahhh`) for debug logs
+
+### Package
+
+```bash
+npx @vscode/vsce package
+```
+
+This produces `faaaaaahhh-0.0.1.vsix` in the project root.
+
+---
+
+## How the diff engine works
+
+The diagnostic watcher does not simply react to "errors exist." It tracks the error count and warning count per file URI across events. A sound only plays when the count for a URI **increases** compared to the last known state.
+
+This means:
+- Opening a file with 10 existing errors does not trigger 10 sounds
+- Adding one new error to that file triggers exactly one sound
+- Fixing errors triggers nothing
+- Saving a file that re-evaluates and produces the same errors triggers nothing
+
+```typescript
+const errorCount = diagnostics.filter(
+  (d) => d.severity === vscode.DiagnosticSeverity.Error
+).length;
+const prevErrors = previousErrorCounts.get(key) ?? 0;
+
+if (errorCount > prevErrors) {
+  playFaaah(context);
+}
+```
+
+---
+
+## FAQ
+
+**Does this work with Python / Rust / Go / Java / C++?**
+If VS Code can produce diagnostics for it, this extension will react to it. Language-agnostic by design.
+
+**Can I use my own sounds?**
+Yes. Set `faaaaaahhh.customSoundPath` to any `.wav` file. The built-in sounds are only used when the custom path is empty.
+
+**The overlapping is too much.**
+Set `faaaaaahhh.cooldownMs` to `3000` or higher. Or toggle off entirely from the status bar.
+
+**Does this use AI?**
+No. It is an event listener and a WAV file.
+
+---
+
+## License
+
+[MIT](LICENSE)
+
+---
+
+<p align="center">
+  <sub>Built at 3 AM by someone who should have been fixing bugs instead of adding sound effects to them.</sub>
+</p>
