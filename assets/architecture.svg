@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap');
+    </style>
+    <!-- Arrow marker -->
+    <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5"
+            markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#FF3B3B"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 10 7" refX="10" refY="3.5"
+            markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#4B5068"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="520" fill="#0F111A"/>
+
+  <!-- Title -->
+  <text x="500" y="38" font-family="Inter, SF Pro, Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#6B7280" text-anchor="middle" letter-spacing="3">ARCHITECTURE</text>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- ROW 1: VS Code Event Sources (top row) -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Diagnostic Errors -->
+  <rect x="60" y="70" width="200" height="72" rx="6" fill="#2A2E3A"/>
+  <rect x="60" y="70" width="200" height="3" rx="1.5" fill="#FF3B3B"/>
+  <text x="160" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Diagnostic Errors</text>
+  <text x="160" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">onDidChangeDiagnostics</text>
+
+  <!-- Task Failures -->
+  <rect x="300" y="70" width="200" height="72" rx="6" fill="#2A2E3A"/>
+  <rect x="300" y="70" width="200" height="3" rx="1.5" fill="#FF3B3B"/>
+  <text x="400" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Task Failures</text>
+  <text x="400" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">onDidEndTaskProcess</text>
+
+  <!-- Debug Crashes -->
+  <rect x="540" y="70" width="200" height="72" rx="6" fill="#2A2E3A"/>
+  <rect x="540" y="70" width="200" height="3" rx="1.5" fill="#FF3B3B"/>
+  <text x="640" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Debug Crashes</text>
+  <text x="640" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">onDidTerminateDebugSession</text>
+
+  <!-- Warnings -->
+  <rect x="780" y="70" width="160" height="72" rx="6" fill="#2A2E3A"/>
+  <rect x="780" y="70" width="160" height="3" rx="1.5" fill="#FEBC2E"/>
+  <text x="860" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Warnings</text>
+  <text x="860" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">Severity.Warning</text>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- Arrows: Sources → Extension Core        -->
+  <!-- ════════════════════════════════════════ -->
+  <line x1="160" y1="142" x2="160" y2="168" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="400" y1="142" x2="400" y2="168" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="640" y1="142" x2="640" y2="168" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="860" y1="142" x2="860" y2="168" stroke="#FEBC2E" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- ROW 2: Extension Core (wide bar)        -->
+  <!-- ════════════════════════════════════════ -->
+  <rect x="60" y="175" width="880" height="80" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
+
+  <!-- Inner boxes inside the core -->
+  <!-- Watcher -->
+  <rect x="80" y="190" width="200" height="48" rx="4" fill="#2A2E3A"/>
+  <text x="180" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Event Watchers</text>
+  <text x="180" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">diagnosticWatcher / taskWatcher / debugWatcher</text>
+
+  <!-- Arrow inside core -->
+  <line x1="288" y1="214" x2="330" y2="214" stroke="#4B5068" stroke-width="1.5" marker-end="url(#arrow-muted)"/>
+
+  <!-- Diff Engine -->
+  <rect x="338" y="190" width="180" height="48" rx="4" fill="#2A2E3A"/>
+  <text x="428" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Diff Engine</text>
+  <text x="428" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">Track counts per URI, fire on new</text>
+
+  <!-- Arrow inside core -->
+  <line x1="526" y1="214" x2="568" y2="214" stroke="#4B5068" stroke-width="1.5" marker-end="url(#arrow-muted)"/>
+
+  <!-- Sound Router -->
+  <rect x="576" y="190" width="160" height="48" rx="4" fill="#2A2E3A"/>
+  <text x="656" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Sound Router</text>
+  <text x="656" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">error → FAAAH / warn → AA</text>
+
+  <!-- Arrow inside core -->
+  <line x1="744" y1="214" x2="778" y2="214" stroke="#4B5068" stroke-width="1.5" marker-end="url(#arrow-muted)"/>
+
+  <!-- Config -->
+  <rect x="786" y="190" width="130" height="48" rx="4" fill="#2A2E3A"/>
+  <text x="851" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Config</text>
+  <text x="851" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">enabled / cooldown / paths</text>
+
+  <!-- Label: Extension Core -->
+  <text x="500" y="270" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#4B5068" text-anchor="middle" letter-spacing="2">EXTENSION CORE</text>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- Arrow: Core → Sound Player              -->
+  <!-- ════════════════════════════════════════ -->
+  <line x1="500" y1="280" x2="500" y2="308" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- ROW 3: Sound Player                     -->
+  <!-- ════════════════════════════════════════ -->
+  <rect x="280" y="315" width="440" height="72" rx="6" fill="#2A2E3A"/>
+  <rect x="280" y="384" width="440" height="3" rx="1.5" fill="#FF3B3B"/>
+  <text x="500" y="345" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F5F5F5" text-anchor="middle">soundPlayer.ts</text>
+  <text x="500" y="365" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">Spawn independent process per sound. No queue. No cancel. Pure overlap.</text>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- Arrows: Player → OS Backends            -->
+  <!-- ════════════════════════════════════════ -->
+  <line x1="360" y1="387" x2="200" y2="430" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="500" y1="387" x2="500" y2="430" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="640" y1="387" x2="800" y2="430" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- ROW 4: OS Audio Backends                -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Windows -->
+  <rect x="100" y="438" width="200" height="56" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
+  <text x="200" y="462" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Windows</text>
+  <text x="200" y="480" font-family="monospace" font-size="9" fill="#6B7280" text-anchor="middle">powershell -File play.ps1</text>
+
+  <!-- macOS -->
+  <rect x="400" y="438" width="200" height="56" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
+  <text x="500" y="462" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">macOS</text>
+  <text x="500" y="480" font-family="monospace" font-size="9" fill="#6B7280" text-anchor="middle">afplay &lt;path&gt;</text>
+
+  <!-- Linux -->
+  <rect x="700" y="438" width="200" height="56" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
+  <text x="800" y="462" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Linux</text>
+  <text x="800" y="480" font-family="monospace" font-size="9" fill="#6B7280" text-anchor="middle">paplay / aplay</text>
+
+  <!-- Bottom accent line -->
+  <rect x="0" y="516" width="1000" height="4" fill="#FF3B3B" opacity="0.4"/>
+</svg>
