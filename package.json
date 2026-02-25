@@ -1,0 +1,87 @@
+{
+  "name": "faaaaaahhh",
+  "displayName": "Faaaaaahhh",
+  "description": "Plays the iconic FAAAH meme sound on every error. Because suffering should be funny.",
+  "version": "0.0.1",
+  "publisher": "tanmoy-debnath",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TanmoyFRu/idk_why.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "meme",
+    "sound",
+    "error",
+    "faaah",
+    "funny"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "faaaaaahhh.toggle",
+        "title": "Faaaaaahhh: Toggle Sound On/Off"
+      },
+      {
+        "command": "faaaaaahhh.testSound",
+        "title": "Faaaaaahhh: Test Error Sound (FAAAH)"
+      },
+      {
+        "command": "faaaaaahhh.testWarningSound",
+        "title": "Faaaaaahhh: Test Warning Sound (AA)"
+      }
+    ],
+    "configuration": {
+      "title": "Faaaaaahhh",
+      "properties": {
+        "faaaaaahhh.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the FAAAH sound on errors."
+        },
+        "faaaaaahhh.warningsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the AA sound on warnings."
+        },
+        "faaaaaahhh.cooldownMs": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "Minimum time (ms) between consecutive sounds. 0 = no cooldown, sounds overlap."
+        },
+        "faaaaaahhh.customSoundPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .wav file for errors. Leave empty to use the built-in FAAAH sound."
+        },
+        "faaaaaahhh.customWarningSoundPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .wav file for warnings. Leave empty to use the built-in AA sound."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.5.0"
+  }
+}
