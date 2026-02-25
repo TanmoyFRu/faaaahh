@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero-banner.svg" alt="FAAAAAAHHH — Auditory feedback for diagnostic chaos" width="100%"/>
+  <img src="assets/hero-banner.png" alt="FAAAAAAHHH — Auditory feedback for diagnostic chaos" width="100%"/>
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@ The sounds overlap by default. Five errors at once means five simultaneous FAAAH
 ## How it works
 
 <p align="center">
-  <img src="assets/architecture.svg" alt="Architecture diagram" width="100%"/>
+  <img src="assets/architecture.png" alt="Architecture diagram" width="100%"/>
 </p>
 
 The extension registers listeners on three VS Code event channels:

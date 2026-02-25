@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Background -->
+  <rect width="256" height="256" rx="24" fill="#0F111A"/>
+
+  <!-- Sound waves (centered) -->
+  <path d="M88,128 Q98,88 108,128 Q118,168 128,128" stroke="#FF3B3B" stroke-width="4" fill="none" opacity="0.9"/>
+  <path d="M108,128 Q122,72 136,128 Q150,184 164,128" stroke="#FF3B3B" stroke-width="3.5" fill="none" opacity="0.65"/>
+  <path d="M128,128 Q148,56 168,128 Q188,200 208,128" stroke="#FF3B3B" stroke-width="3" fill="none" opacity="0.35"/>
+
+  <!-- Accent dot -->
+  <circle cx="82" cy="128" r="5" fill="#FF3B3B" opacity="0.9"/>
+
+  <!-- Red squiggly underline -->
+  <path d="M56,188 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4 l4,4" stroke="#FF3B3B" stroke-width="2.5" fill="none"/>
+
+  <!-- Text: F -->
+  <text x="128" y="78" font-family="Inter, SF Pro, Segoe UI, Arial, sans-serif" font-size="48" font-weight="800" fill="#F5F5F5" text-anchor="middle" letter-spacing="2">F</text>
+
+  <!-- Bottom accent bar -->
+  <rect x="0" y="248" width="256" height="8" rx="0" fill="#FF3B3B" opacity="0.6"/>
+</svg>

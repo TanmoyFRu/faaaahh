@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "publisher": "tanmoy-debnath",
   "license": "MIT",
+  "icon": "assets/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/TanmoyFRu/idk_why.git"
