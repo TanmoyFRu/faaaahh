@@ -7,3 +7,4 @@ esbuild.js
 .gitignore
 *.vsix
 assets/*.svg
+gen-pitched-wavs.js
