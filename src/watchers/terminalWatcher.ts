@@ -7,10 +7,12 @@ export function registerTerminalWatcher(
 ): vscode.Disposable[] {
   const disposables: vscode.Disposable[] = [];
 
-  // Shell integration API (VS Code 1.93+) — fires after each terminal command finishes
-  // Exit code 127 = command not found (bash/zsh mistype)
-  // Exit code != 0 = any terminal error/mistype
-  if (typeof (vscode.window as any).onDidEndTerminalShellExecution === "function") {
+  const hasShellIntegration =
+    typeof (vscode.window as any).onDidEndTerminalShellExecution === "function";
+
+  if (hasShellIntegration) {
+    // Shell integration API (VS Code 1.93+) — fires after each terminal command finishes.
+    // Exit code 127 = command not found; any non-zero exit = failure.
     disposables.push(
       (vscode.window as any).onDidEndTerminalShellExecution(
         (event: { exitCode: number | undefined }) => {
@@ -21,11 +23,9 @@ export function registerTerminalWatcher(
         }
       )
     );
-  }
-
-  // Fallback for older VS Code: watch terminal data for "command not found" patterns
-  // onDidWriteTerminalData is available in VS Code 1.56+ as a stable API
-  if (typeof (vscode.window as any).onDidWriteTerminalData === "function") {
+  } else if (typeof (vscode.window as any).onDidWriteTerminalData === "function") {
+    // Fallback for VS Code < 1.93: pattern-match terminal output.
+    // Only registers when shell integration is unavailable to prevent double-firing.
     disposables.push(
       (vscode.window as any).onDidWriteTerminalData(
         (event: { data: string }) => {
@@ -33,10 +33,8 @@ export function registerTerminalWatcher(
           const data = event.data.toLowerCase();
           if (
             data.includes("command not found") ||
-            data.includes("is not recognized") ||
-            data.includes("cannot be loaded because running scripts") ||
-            data.includes("no such file or directory") ||
-            data.includes("not found")
+            data.includes("is not recognized as an internal or external command") ||
+            data.includes("cannot be loaded because running scripts is disabled")
           ) {
             playAhhhh(context);
           }
