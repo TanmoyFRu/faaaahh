@@ -22,10 +22,15 @@ A Visual Studio Code extension that plays the **FAAAH** meme sound every time an
 
 Every error source VS Code exposes is covered: red squiggles, failed build tasks, crashed debug sessions, and mistyped terminal commands. If your code is broken, you will hear about it.
 
+**v0.2.0 adds:**
+
+- **Volume control** — slider in the Settings Panel (0–100%). Works on Windows, macOS, and Linux
+- **Live error count in status bar** — shows `$(error)N` next to the FAAAH toggle when errors exist
+- **Victory sound off by default** — opt-in via Settings Panel if you want it
+
 **v0.1.0 adds:**
 
 - **Severity tiers** — syntax typos play a calm sound; dropping 5 errors at once plays something louder
-- **Victory sound** — when you fix all errors in a file, a sound plays
 - **Terminal mistype sound** — wrong command in the terminal? You'll hear that too
 - **Custom sound folders** — drop your own WAV files in a folder; the extension picks one at random per event
 - **Quiet hours** — mute sounds between configurable hours (e.g. 09:00–17:00 in meetings)
@@ -117,6 +122,7 @@ Open the Command Palette (`Ctrl+Shift+P`):
 `Faaaaaahhh: Open Settings Panel` opens a webview with live controls:
 
 - Master switches for errors, warnings, victory, terminal sounds
+- Volume slider (0–100%) with live preview
 - Cooldown slider (0–10 000 ms) with live preview
 - Error streak shame threshold
 - Quiet hours time pickers
@@ -128,7 +134,8 @@ Changes apply to your global VS Code settings instantly.
 
 A **FAAAH** button sits in the bottom-right status bar. Click it to toggle on/off.
 
-- `$(unmute) FAAAH` — sounds active
+- `$(unmute) FAAAH` — sounds active, no errors
+- `$(unmute) FAAAH  $(error)5` — sounds active, 5 errors in workspace
 - `$(mute) FAAAH` — sounds disabled
 - `$(mute) FAAAH (quiet)` — quiet hours are currently active
 
@@ -144,8 +151,9 @@ All settings live under `faaaaaahhh.*` in VS Code settings (`Ctrl+,`).
 |---|---|---|---|
 | `faaaaaahhh.enabled` | `boolean` | `true` | Master switch for all sounds |
 | `faaaaaahhh.warningsEnabled` | `boolean` | `true` | Play AA sound on new warnings |
-| `faaaaaahhh.victoryEnabled` | `boolean` | `true` | Play victory sound when a file's errors drop to zero |
+| `faaaaaahhh.victoryEnabled` | `boolean` | `false` | Play victory sound when a file's errors drop to zero |
 | `faaaaaahhh.terminalSoundEnabled` | `boolean` | `true` | Play sound when a terminal command fails |
+| `faaaaaahhh.volume` | `number` | `100` | Playback volume for all sounds (0–100) |
 | `faaaaaahhh.cooldownMs` | `number` | `0` | Minimum ms between sounds per kind. `0` = instant overlap |
 | `faaaaaahhh.soundPack` | `string` | `"meme"` | Active pack: `meme`, `rage`, or `chill` |
 | `faaaaaahhh.streakThresholdToast` | `number` | `10` | Consecutive errors before showing the shame notification |
@@ -192,9 +200,9 @@ All settings live under `faaaaaahhh.*` in VS Code settings (`Ctrl+,`).
 
 | Platform | Audio backend | Notes |
 |---|---|---|
-| Windows | `powershell -File play.ps1` | Uses `System.Media.SoundPlayer`. Each sound is a separate PowerShell process. |
-| macOS | `afplay` | Native. No dependencies. |
-| Linux | `paplay` → `aplay` | Falls back to `aplay` if PulseAudio is unavailable. |
+| Windows | `powershell -File play.ps1` | Volume < 100%: Windows Media Player COM. Volume = 100%: `SoundPlayer` (faster). |
+| macOS | `afplay -v` | Native. No dependencies. Volume passed as `0.00–1.00`. |
+| Linux | `paplay --volume` → `aplay` | Volume passed as `0–65536`. Falls back to `aplay` (no volume) if PulseAudio unavailable. |
 
 ---
 
