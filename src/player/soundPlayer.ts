@@ -168,7 +168,7 @@ function getPlayScript(context: vscode.ExtensionContext): string {
   return path.join(context.extensionPath, "media", "play.ps1");
 }
 
-function playOnWindows(context: vscode.ExtensionContext, soundPath: string): void {
+function playOnWindows(context: vscode.ExtensionContext, soundPath: string, volume: number): void {
   const scriptPath = getPlayScript(context);
   const proc = execFile("powershell.exe", [
     "-NoProfile",
@@ -176,6 +176,7 @@ function playOnWindows(context: vscode.ExtensionContext, soundPath: string): voi
     "-ExecutionPolicy", "Bypass",
     "-File", scriptPath,
     "-Path", soundPath,
+    "-Volume", String(Math.round(volume)),
   ], { windowsHide: true }, (error, _stdout, stderr) => {
     if (error) { log(`Playback error: ${error.message}`); }
     if (stderr) { log(`Playback stderr: ${stderr}`); }
@@ -183,11 +184,12 @@ function playOnWindows(context: vscode.ExtensionContext, soundPath: string): voi
   });
   activeProcesses.add(proc);
   proc.unref();
-  log(`Spawned sound process (PID: ${proc.pid})`);
+  log(`Spawned sound process (PID: ${proc.pid}, volume: ${volume}%)`);
 }
 
-function playOnMacOS(soundPath: string): void {
-  const proc = execFile("afplay", [soundPath], (error) => {
+function playOnMacOS(soundPath: string, volume: number): void {
+  const vol = (volume / 100).toFixed(2); // afplay -v accepts 0.00–1.00
+  const proc = execFile("afplay", ["-v", vol, soundPath], (error) => {
     if (error) { log(`Playback error: ${error.message}`); }
     activeProcesses.delete(proc);
   });
@@ -195,10 +197,13 @@ function playOnMacOS(soundPath: string): void {
   proc.unref();
 }
 
-function playOnLinux(soundPath: string): void {
-  const proc = execFile("paplay", [soundPath], (error) => {
+function playOnLinux(soundPath: string, volume: number): void {
+  // paplay --volume: 0–65536 where 65536 = 100%
+  const vol = String(Math.round((volume / 100) * 65536));
+  const proc = execFile("paplay", [`--volume=${vol}`, soundPath], (error) => {
     if (error) {
       log("paplay failed, trying aplay...");
+      // aplay has no volume flag; fall back without volume control
       const fallback = execFile("aplay", [soundPath], (err) => {
         if (err) { log(`aplay also failed: ${err.message}`); }
         activeProcesses.delete(fallback);
@@ -212,11 +217,11 @@ function playOnLinux(soundPath: string): void {
   proc.unref();
 }
 
-function dispatchToOS(context: vscode.ExtensionContext, soundPath: string): void {
+function dispatchToOS(context: vscode.ExtensionContext, soundPath: string, volume: number): void {
   const platform = process.platform;
-  if (platform === "win32") { playOnWindows(context, soundPath); }
-  else if (platform === "darwin") { playOnMacOS(soundPath); }
-  else { playOnLinux(soundPath); }
+  if (platform === "win32") { playOnWindows(context, soundPath, volume); }
+  else if (platform === "darwin") { playOnMacOS(soundPath, volume); }
+  else { playOnLinux(soundPath, volume); }
 }
 
 // ── Public API ─────────────────────────────────────────────────────────────────
@@ -261,8 +266,8 @@ export function playSound(
   }
 
   recordPlayed(kind);
-  log(`Playing [${kind}] delta=${delta} tier=${delta >= 5 ? "3" : delta >= 2 ? "2" : "1"}: ${soundPath}`);
-  dispatchToOS(context, soundPath);
+  log(`Playing [${kind}] delta=${delta} tier=${delta >= 5 ? "3" : delta >= 2 ? "2" : "1"} vol=${config.volume}%: ${soundPath}`);
+  dispatchToOS(context, soundPath, config.volume);
 }
 
 // Backward-compatible wrappers (taskWatcher / debugWatcher use these)
