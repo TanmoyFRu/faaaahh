@@ -45,6 +45,9 @@ export class SettingsPanel {
           case "updateTerminalEnabled":
             await cfg.update("terminalSoundEnabled", message.value, vscode.ConfigurationTarget.Global);
             break;
+          case "updateVolume":
+            await cfg.update("volume", message.value, vscode.ConfigurationTarget.Global);
+            break;
           case "updateStreakThreshold":
             await cfg.update("streakThresholdToast", message.value, vscode.ConfigurationTarget.Global);
             break;
@@ -103,6 +106,7 @@ export class SettingsPanel {
 
   private _getHtml(): string {
     const cfg = vscode.workspace.getConfiguration("faaaaaahhh");
+    const volume = Math.min(100, Math.max(0, cfg.get<number>("volume", 100)));
     const cooldown = cfg.get<number>("cooldownMs", 0);
     const enabled = cfg.get<boolean>("enabled", true);
     const warningsEnabled = cfg.get<boolean>("warningsEnabled", true);
@@ -333,6 +337,14 @@ export class SettingsPanel {
       <span class="desc">Play when a terminal command fails or isn't recognized.</span>
     </label>
     <input type="checkbox" id="terminalEnabled" ${terminalEnabled ? "checked" : ""}>
+  </div>
+  <div class="row">
+    <label>
+      Volume
+      <span class="desc">Playback volume for all sounds.</span>
+    </label>
+    <input type="range" id="volume" min="0" max="100" step="5" value="${volume}">
+    <span class="range-val" id="volumeVal">${volume}%</span>
   </div>
 </div>
 
@@ -577,6 +589,15 @@ export class SettingsPanel {
   // Terminal enabled
   document.getElementById('terminalEnabled').addEventListener('change', (e) => {
     vscode.postMessage({ command: 'updateTerminalEnabled', value: e.target.checked });
+  });
+
+  // Volume slider
+  const volSlider = document.getElementById('volume');
+  const volVal = document.getElementById('volumeVal');
+  volSlider.addEventListener('input', () => {
+    const v = parseInt(volSlider.value);
+    volVal.textContent = v + '%';
+    vscode.postMessage({ command: 'updateVolume', value: v });
   });
 
   // Cooldown slider
