@@ -103,7 +103,7 @@ function resolveErrorSound(
   if (userTierPath) { return userTierPath; }
 
   const packFiles: Record<typeof tierKey, string> = {
-    tier1: "faah-low.wav",
+    tier1: "faaah-easy.wav",
     tier2: "faah-mid.wav",
     tier3: "faah-high.wav",
   };
@@ -140,6 +140,16 @@ function resolveWarningSound(
   if (fs.existsSync(primary)) { return primary; }
 
   return path.join(context.extensionPath, "media", "aa.wav");
+}
+
+function resolveTerminalSound(
+  context: vscode.ExtensionContext,
+  config: FaaaaahhhConfig
+): string {
+  if (config.customTerminalSoundPath?.trim()) { return config.customTerminalSoundPath.trim(); }
+  const primary = getBundledSoundPath(context, config.soundPack, "ahhhh.wav");
+  if (fs.existsSync(primary)) { return primary; }
+  return path.join(context.extensionPath, "media", "ahhhh.wav");
 }
 
 function resolveVictorySound(
@@ -213,7 +223,7 @@ function dispatchToOS(context: vscode.ExtensionContext, soundPath: string): void
 
 export function playSound(
   context: vscode.ExtensionContext,
-  kind: "error" | "warning" | "victory",
+  kind: "error" | "warning" | "victory" | "terminal",
   delta: number = 1
 ): void {
   const config = getConfig();
@@ -221,6 +231,7 @@ export function playSound(
   if (!config.enabled) { log("Skipped: extension disabled"); return; }
   if (kind === "warning" && !config.warningsEnabled) { return; }
   if (kind === "victory" && !config.victoryEnabled) { return; }
+  if (kind === "terminal" && !config.terminalSoundEnabled) { return; }
 
   if (isQuietHoursActive(config)) {
     log(`Skipped: quiet hours (${config.quietHoursStart}–${config.quietHoursEnd})`);
@@ -235,6 +246,8 @@ export function playSound(
   let soundPath: string;
   if (kind === "victory") {
     soundPath = resolveVictorySound(context, config);
+  } else if (kind === "terminal") {
+    soundPath = resolveTerminalSound(context, config);
   } else if (kind === "error") {
     soundPath = resolveErrorSound(context, config, delta);
   } else {
@@ -255,6 +268,10 @@ export function playSound(
 // Backward-compatible wrappers (taskWatcher / debugWatcher use these)
 export function playFaaah(context: vscode.ExtensionContext): void {
   playSound(context, "error", 1);
+}
+
+export function playAhhhh(context: vscode.ExtensionContext): void {
+  playSound(context, "terminal", 0);
 }
 
 export function playAa(context: vscode.ExtensionContext): void {
