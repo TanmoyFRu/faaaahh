@@ -37,6 +37,8 @@ export interface FaaaaahhhConfig {
   // Terminal mistype
   terminalSoundEnabled: boolean;
   customTerminalSoundPath: string;
+  // Volume
+  volume: number;
 }
 
 export function getConfig(): FaaaaahhhConfig {
@@ -51,7 +53,7 @@ export function getConfig(): FaaaaahhhConfig {
     warningTierSounds: cfg.get<WarningTierSounds>("warningTierSounds", { tier1: "", tier2: "" }),
     customSoundFolder: cfg.get<string>("customSoundFolder", ""),
     customWarningSoundFolder: cfg.get<string>("customWarningSoundFolder", ""),
-    victoryEnabled: cfg.get<boolean>("victoryEnabled", true),
+    victoryEnabled: cfg.get<boolean>("victoryEnabled", false),
     customVictoryPath: cfg.get<string>("customVictoryPath", ""),
     quietHoursStart: cfg.get<string>("quietHoursStart", ""),
     quietHoursEnd: cfg.get<string>("quietHoursEnd", ""),
@@ -59,5 +61,6 @@ export function getConfig(): FaaaaahhhConfig {
     streakThresholdToast: cfg.get<number>("streakThresholdToast", 10),
     terminalSoundEnabled: cfg.get<boolean>("terminalSoundEnabled", true),
     customTerminalSoundPath: cfg.get<string>("customTerminalSoundPath", ""),
+    volume: Math.min(100, Math.max(0, cfg.get<number>("volume", 100))),
   };
 }

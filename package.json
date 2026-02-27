@@ -105,7 +105,7 @@
         },
         "faaaaaahhh.victoryEnabled": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Play a victory sound when all errors in a file are fixed."
         },
         "faaaaaahhh.customVictoryPath": {
@@ -144,6 +144,13 @@
           "type": "string",
           "default": "",
           "description": "Path to a custom .wav for terminal mistype sounds. Leave empty to use built-in ahhhh.wav."
+        },
+        "faaaaaahhh.volume": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Playback volume for all sounds (0–100). Default 100 = full volume."
         }
       }
     }
