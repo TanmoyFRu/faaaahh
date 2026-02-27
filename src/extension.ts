@@ -4,6 +4,7 @@ import { getConfig } from "./config";
 import { registerDiagnosticWatcher } from "./watchers/diagnosticWatcher";
 import { registerTaskWatcher } from "./watchers/taskWatcher";
 import { registerDebugWatcher } from "./watchers/debugWatcher";
+import { registerTerminalWatcher } from "./watchers/terminalWatcher";
 import { SettingsPanel } from "./webview/settingsPanel";
 
 let statusBarItem: vscode.StatusBarItem;
@@ -118,6 +119,7 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(registerDiagnosticWatcher(context));
   context.subscriptions.push(registerTaskWatcher(context));
   context.subscriptions.push(registerDebugWatcher(context));
+  context.subscriptions.push(...registerTerminalWatcher(context));
 
   // Update status bar when config changes
   context.subscriptions.push(
