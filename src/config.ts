@@ -34,6 +34,9 @@ export interface FaaaaahhhConfig {
   soundPack: "meme" | "rage" | "chill";
   // Streak
   streakThresholdToast: number;
+  // Terminal mistype
+  terminalSoundEnabled: boolean;
+  customTerminalSoundPath: string;
 }
 
 export function getConfig(): FaaaaahhhConfig {
@@ -54,5 +57,7 @@ export function getConfig(): FaaaaahhhConfig {
     quietHoursEnd: cfg.get<string>("quietHoursEnd", ""),
     soundPack: cfg.get<"meme" | "rage" | "chill">("soundPack", "meme"),
     streakThresholdToast: cfg.get<number>("streakThresholdToast", 10),
+    terminalSoundEnabled: cfg.get<boolean>("terminalSoundEnabled", true),
+    customTerminalSoundPath: cfg.get<string>("customTerminalSoundPath", ""),
   };
 }
