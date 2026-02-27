@@ -134,6 +134,16 @@
           "default": 10,
           "minimum": 1,
           "description": "Number of consecutive error events (without any fix) before showing the shame notification."
+        },
+        "faaaaaahhh.terminalSoundEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Play the AHHHH sound when a terminal command fails or is not recognized."
+        },
+        "faaaaaahhh.customTerminalSoundPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .wav for terminal mistype sounds. Leave empty to use built-in ahhhh.wav."
         }
       }
     }
