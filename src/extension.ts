@@ -9,18 +9,30 @@ import { SettingsPanel } from "./webview/settingsPanel";
 
 let statusBarItem: vscode.StatusBarItem;
 
+function getWorkspaceErrorCount(): number {
+  let total = 0;
+  for (const [, diags] of vscode.languages.getDiagnostics()) {
+    total += diags.filter(
+      (d) => d.severity === vscode.DiagnosticSeverity.Error
+    ).length;
+  }
+  return total;
+}
+
 function updateStatusBar(): void {
   const config = getConfig();
   const quiet = isQuietHoursActive(config);
+  const errCount = getWorkspaceErrorCount();
+  const errBadge = errCount > 0 ? `  $(error)${errCount}` : "";
 
   if (!config.enabled) {
     statusBarItem.text = "$(mute) FAAAH";
     statusBarItem.tooltip = "Faaaaaahhh is OFF - Click to enable";
   } else if (quiet) {
-    statusBarItem.text = "$(mute) FAAAH (quiet)";
+    statusBarItem.text = `$(mute) FAAAH (quiet)${errBadge}`;
     statusBarItem.tooltip = `Faaaaaahhh: Quiet hours active (${config.quietHoursStart}–${config.quietHoursEnd})`;
   } else {
-    statusBarItem.text = "$(unmute) FAAAH";
+    statusBarItem.text = `$(unmute) FAAAH${errBadge}`;
     statusBarItem.tooltip = "Faaaaaahhh is ON - Click to disable";
   }
 }
@@ -128,6 +140,11 @@ export function activate(context: vscode.ExtensionContext): void {
         updateStatusBar();
       }
     })
+  );
+
+  // Update error count in status bar whenever diagnostics change
+  context.subscriptions.push(
+    vscode.languages.onDidChangeDiagnostics(() => updateStatusBar())
   );
 
   outputChannel.appendLine("All watchers registered. Waiting for errors...");
