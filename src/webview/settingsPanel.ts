@@ -42,6 +42,9 @@ export class SettingsPanel {
           case "updateVictoryEnabled":
             await cfg.update("victoryEnabled", message.value, vscode.ConfigurationTarget.Global);
             break;
+          case "updateTerminalEnabled":
+            await cfg.update("terminalSoundEnabled", message.value, vscode.ConfigurationTarget.Global);
+            break;
           case "updateStreakThreshold":
             await cfg.update("streakThresholdToast", message.value, vscode.ConfigurationTarget.Global);
             break;
@@ -53,6 +56,41 @@ export class SettingsPanel {
                 ? `Quiet hours set: ${message.start} – ${message.end}`
                 : "Quiet hours disabled."
             );
+            break;
+          // ── Custom sound paths ────────────────────────────────────────────────
+          case "updateCustomSoundFolder":
+            await cfg.update("customSoundFolder", message.value, vscode.ConfigurationTarget.Global);
+            break;
+          case "updateCustomWarningSoundFolder":
+            await cfg.update("customWarningSoundFolder", message.value, vscode.ConfigurationTarget.Global);
+            break;
+          case "updateErrorTier": {
+            const current = cfg.get<{ tier1: string; tier2: string; tier3: string }>(
+              "errorTierSounds", { tier1: "", tier2: "", tier3: "" }
+            );
+            const updated = { ...current, [message.tier]: message.value };
+            await cfg.update("errorTierSounds", updated, vscode.ConfigurationTarget.Global);
+            break;
+          }
+          case "updateWarningTier": {
+            const current = cfg.get<{ tier1: string; tier2: string }>(
+              "warningTierSounds", { tier1: "", tier2: "" }
+            );
+            const updated = { ...current, [message.tier]: message.value };
+            await cfg.update("warningTierSounds", updated, vscode.ConfigurationTarget.Global);
+            break;
+          }
+          case "updateVictoryPath":
+            await cfg.update("customVictoryPath", message.value, vscode.ConfigurationTarget.Global);
+            break;
+          case "updateTerminalPath":
+            await cfg.update("customTerminalSoundPath", message.value, vscode.ConfigurationTarget.Global);
+            break;
+          case "updateCustomSoundPath":
+            await cfg.update("customSoundPath", message.value, vscode.ConfigurationTarget.Global);
+            break;
+          case "updateCustomWarningSoundPath":
+            await cfg.update("customWarningSoundPath", message.value, vscode.ConfigurationTarget.Global);
             break;
         }
       },
@@ -69,10 +107,23 @@ export class SettingsPanel {
     const enabled = cfg.get<boolean>("enabled", true);
     const warningsEnabled = cfg.get<boolean>("warningsEnabled", true);
     const victoryEnabled = cfg.get<boolean>("victoryEnabled", true);
+    const terminalEnabled = cfg.get<boolean>("terminalSoundEnabled", true);
     const streakThreshold = cfg.get<number>("streakThresholdToast", 10);
     const quietStart = cfg.get<string>("quietHoursStart", "");
     const quietEnd = cfg.get<string>("quietHoursEnd", "");
     const soundPack = cfg.get<string>("soundPack", "meme");
+    const errorTiers = cfg.get<{ tier1: string; tier2: string; tier3: string }>(
+      "errorTierSounds", { tier1: "", tier2: "", tier3: "" }
+    );
+    const warningTiers = cfg.get<{ tier1: string; tier2: string }>(
+      "warningTierSounds", { tier1: "", tier2: "" }
+    );
+    const customSoundFolder = cfg.get<string>("customSoundFolder", "");
+    const customWarningSoundFolder = cfg.get<string>("customWarningSoundFolder", "");
+    const customVictoryPath = cfg.get<string>("customVictoryPath", "");
+    const customTerminalPath = cfg.get<string>("customTerminalSoundPath", "");
+
+    const e = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -87,13 +138,12 @@ export class SettingsPanel {
     color: var(--vscode-foreground);
     background: var(--vscode-editor-background);
     padding: 24px 32px;
-    max-width: 600px;
+    max-width: 680px;
   }
   h1 {
     font-size: 18px;
     font-weight: 700;
     margin: 0 0 4px 0;
-    color: var(--vscode-foreground);
   }
   .subtitle {
     font-size: 11px;
@@ -122,6 +172,7 @@ export class SettingsPanel {
   .row label {
     flex: 1;
     font-size: 13px;
+    min-width: 180px;
   }
   .row .desc {
     display: block;
@@ -164,6 +215,21 @@ export class SettingsPanel {
     border-radius: 2px;
     font-size: 13px;
   }
+  input[type="text"] {
+    flex: 1;
+    background: var(--vscode-input-background);
+    color: var(--vscode-input-foreground);
+    border: 1px solid var(--vscode-input-border, #555);
+    padding: 5px 8px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: var(--vscode-editor-font-family, monospace);
+    min-width: 0;
+  }
+  input[type="text"]::placeholder {
+    color: var(--vscode-input-placeholderForeground);
+    font-style: italic;
+  }
   .quiet-row {
     display: flex;
     align-items: center;
@@ -172,7 +238,7 @@ export class SettingsPanel {
     font-size: 13px;
   }
   button {
-    padding: 6px 14px;
+    padding: 5px 12px;
     background: var(--vscode-button-background);
     color: var(--vscode-button-foreground);
     border: none;
@@ -180,8 +246,14 @@ export class SettingsPanel {
     cursor: pointer;
     font-size: 12px;
     font-family: inherit;
+    flex-shrink: 0;
   }
   button:hover { background: var(--vscode-button-hoverBackground); }
+  button.secondary {
+    background: var(--vscode-button-secondaryBackground, #3a3d41);
+    color: var(--vscode-button-secondaryForeground, #ccc);
+  }
+  button.secondary:hover { background: var(--vscode-button-secondaryHoverBackground, #45494e); }
   .pack-info {
     font-size: 12px;
     color: var(--vscode-descriptionForeground);
@@ -195,14 +267,43 @@ export class SettingsPanel {
     font-size: 11px;
     color: var(--vscode-descriptionForeground);
     border-radius: 0 2px 2px 0;
+    line-height: 1.6;
+  }
+  .sound-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .sound-row .sound-label {
+    font-size: 12px;
+    min-width: 190px;
+    flex-shrink: 0;
+  }
+  .sound-label .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 4px;
+    background: var(--vscode-badge-background, #4d4d4d);
+    color: var(--vscode-badge-foreground, #fff);
+    vertical-align: middle;
+  }
+  .saved-flash {
+    font-size: 11px;
+    color: #4caf50;
+    margin-left: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
   }
 </style>
 </head>
 <body>
 <h1>Faaaaaahhh Settings</h1>
-<p class="subtitle">v0.1.0 — All changes apply immediately.</p>
+<p class="subtitle">v0.1.0 — All changes apply immediately (except paths, which save on click).</p>
 
-<!-- Master switches -->
+<!-- ── General ── -->
 <div class="section">
   <div class="section-title">General</div>
   <div class="row">
@@ -226,9 +327,16 @@ export class SettingsPanel {
     </label>
     <input type="checkbox" id="victoryEnabled" ${victoryEnabled ? "checked" : ""}>
   </div>
+  <div class="row">
+    <label>
+      Terminal Mistype Sound
+      <span class="desc">Play when a terminal command fails or isn't recognized.</span>
+    </label>
+    <input type="checkbox" id="terminalEnabled" ${terminalEnabled ? "checked" : ""}>
+  </div>
 </div>
 
-<!-- Cooldown -->
+<!-- ── Cooldown ── -->
 <div class="section">
   <div class="section-title">Cooldown</div>
   <div class="row">
@@ -241,7 +349,7 @@ export class SettingsPanel {
   </div>
 </div>
 
-<!-- Streak -->
+<!-- ── Error Streak ── -->
 <div class="section">
   <div class="section-title">Error Streak</div>
   <div class="row">
@@ -253,43 +361,203 @@ export class SettingsPanel {
   </div>
 </div>
 
-<!-- Quiet Hours -->
+<!-- ── Quiet Hours ── -->
 <div class="section">
   <div class="section-title">Quiet Hours</div>
   <div class="quiet-row">
     <span>From</span>
-    <input type="time" id="quietStart" value="${quietStart}">
+    <input type="time" id="quietStart" value="${e(quietStart)}">
     <span>to</span>
-    <input type="time" id="quietEnd" value="${quietEnd}">
+    <input type="time" id="quietEnd" value="${e(quietEnd)}">
     <button id="saveQuiet">Save</button>
-    <button id="clearQuiet">Clear</button>
+    <button id="clearQuiet" class="secondary">Clear</button>
   </div>
   <div style="font-size:11px;color:var(--vscode-descriptionForeground)">
-    Sounds are muted during this window. Status bar shows "(quiet)".
-    Leave empty to disable.
+    Sounds are muted during this window. Status bar shows "(quiet)". Leave empty to disable.
   </div>
 </div>
 
-<!-- Sound Pack -->
+<!-- ── Custom Error Sounds ── -->
+<div class="section">
+  <div class="section-title">Custom Error Sounds</div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      Random folder
+      <span class="badge">overrides tiers</span>
+    </span>
+    <input type="text" id="errorFolder" value="${e(customSoundFolder)}"
+      placeholder="C:\\sounds\\errors (picks random .wav)">
+    <button onclick="savePath('errorFolder', 'updateCustomSoundFolder')">Save</button>
+    <button class="secondary" onclick="clearPath('errorFolder', 'updateCustomSoundFolder')">✕</button>
+    <span class="saved-flash" id="errorFolder-flash">✓</span>
+  </div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      Syntax errors
+      <span class="badge">tier 1</span>
+    </span>
+    <input type="text" id="errorTier1" value="${e(errorTiers.tier1)}"
+      placeholder="C:\\sounds\\faaah-easy.wav">
+    <button onclick="saveErrorTier('errorTier1', 'tier1')">Save</button>
+    <button class="secondary" onclick="clearErrorTier('errorTier1', 'tier1')">✕</button>
+    <span class="saved-flash" id="errorTier1-flash">✓</span>
+  </div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      Medium errors (2–4 new)
+      <span class="badge">tier 2</span>
+    </span>
+    <input type="text" id="errorTier2" value="${e(errorTiers.tier2)}"
+      placeholder="C:\\sounds\\faah-mid.wav">
+    <button onclick="saveErrorTier('errorTier2', 'tier2')">Save</button>
+    <button class="secondary" onclick="clearErrorTier('errorTier2', 'tier2')">✕</button>
+    <span class="saved-flash" id="errorTier2-flash">✓</span>
+  </div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      High errors (5+ new)
+      <span class="badge">tier 3</span>
+    </span>
+    <input type="text" id="errorTier3" value="${e(errorTiers.tier3)}"
+      placeholder="C:\\sounds\\faah-high.wav">
+    <button onclick="saveErrorTier('errorTier3', 'tier3')">Save</button>
+    <button class="secondary" onclick="clearErrorTier('errorTier3', 'tier3')">✕</button>
+    <span class="saved-flash" id="errorTier3-flash">✓</span>
+  </div>
+</div>
+
+<!-- ── Custom Warning Sounds ── -->
+<div class="section">
+  <div class="section-title">Custom Warning Sounds</div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      Random folder
+      <span class="badge">overrides tiers</span>
+    </span>
+    <input type="text" id="warningFolder" value="${e(customWarningSoundFolder)}"
+      placeholder="C:\\sounds\\warnings">
+    <button onclick="savePath('warningFolder', 'updateCustomWarningSoundFolder')">Save</button>
+    <button class="secondary" onclick="clearPath('warningFolder', 'updateCustomWarningSoundFolder')">✕</button>
+    <span class="saved-flash" id="warningFolder-flash">✓</span>
+  </div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      Minor warnings (1 new)
+      <span class="badge">tier 1</span>
+    </span>
+    <input type="text" id="warnTier1" value="${e(warningTiers.tier1)}"
+      placeholder="C:\\sounds\\aa-low.wav">
+    <button onclick="saveWarningTier('warnTier1', 'tier1')">Save</button>
+    <button class="secondary" onclick="clearWarningTier('warnTier1', 'tier1')">✕</button>
+    <span class="saved-flash" id="warnTier1-flash">✓</span>
+  </div>
+
+  <div class="sound-row">
+    <span class="sound-label">
+      Major warnings (2+ new)
+      <span class="badge">tier 2</span>
+    </span>
+    <input type="text" id="warnTier2" value="${e(warningTiers.tier2)}"
+      placeholder="C:\\sounds\\aa-high.wav">
+    <button onclick="saveWarningTier('warnTier2', 'tier2')">Save</button>
+    <button class="secondary" onclick="clearWarningTier('warnTier2', 'tier2')">✕</button>
+    <span class="saved-flash" id="warnTier2-flash">✓</span>
+  </div>
+</div>
+
+<!-- ── Other Sounds ── -->
+<div class="section">
+  <div class="section-title">Other Sounds</div>
+
+  <div class="sound-row">
+    <span class="sound-label">Victory sound</span>
+    <input type="text" id="victoryPath" value="${e(customVictoryPath)}"
+      placeholder="C:\\sounds\\victory.wav">
+    <button onclick="savePath('victoryPath', 'updateVictoryPath')">Save</button>
+    <button class="secondary" onclick="clearPath('victoryPath', 'updateVictoryPath')">✕</button>
+    <span class="saved-flash" id="victoryPath-flash">✓</span>
+  </div>
+
+  <div class="sound-row">
+    <span class="sound-label">Terminal mistype sound</span>
+    <input type="text" id="terminalPath" value="${e(customTerminalPath)}"
+      placeholder="C:\\sounds\\ahhhh.wav">
+    <button onclick="savePath('terminalPath', 'updateTerminalPath')">Save</button>
+    <button class="secondary" onclick="clearPath('terminalPath', 'updateTerminalPath')">✕</button>
+    <span class="saved-flash" id="terminalPath-flash">✓</span>
+  </div>
+</div>
+
+<!-- ── Sound Pack ── -->
 <div class="section">
   <div class="section-title">Sound Pack</div>
   <div style="font-size:13px;margin-bottom:8px">
-    Active pack: <strong>${soundPack}</strong>
+    Active pack: <strong>${e(soundPack)}</strong>
   </div>
   <p class="pack-info">
     Switch packs via Command Palette → "Faaaaaahhh: Switch Sound Pack".<br>
-    Drop custom WAV files into a folder and set customSoundFolder in VS Code settings
-    to override the pack entirely.
+    Custom paths above always override the active sound pack.
   </p>
 </div>
 
 <div class="tip">
-  Tier system: 1 new error = tier1 (low), 2–4 = tier2 (mid), 5+ = tier3 (high).<br>
-  Override individual tiers with custom WAV paths in <code>faaaaaahhh.errorTierSounds</code>.
+  <strong>Priority (highest → lowest):</strong><br>
+  Random folder → Custom tier path → Sound pack file → Built-in fallback<br><br>
+  <strong>Tier system:</strong> 1 new error = tier 1 (syntax/low), 2–4 = tier 2 (mid), 5+ = tier 3 (high).<br>
+  Syntax errors (typos, missing brackets) always play tier 1 regardless of count.
 </div>
 
 <script>
   const vscode = acquireVsCodeApi();
+
+  function flash(id) {
+    const el = document.getElementById(id + '-flash');
+    if (!el) return;
+    el.style.opacity = '1';
+    setTimeout(() => { el.style.opacity = '0'; }, 1400);
+  }
+
+  function savePath(inputId, command) {
+    const val = document.getElementById(inputId).value.trim();
+    vscode.postMessage({ command, value: val });
+    flash(inputId);
+  }
+
+  function clearPath(inputId, command) {
+    document.getElementById(inputId).value = '';
+    vscode.postMessage({ command, value: '' });
+    flash(inputId);
+  }
+
+  function saveErrorTier(inputId, tier) {
+    const val = document.getElementById(inputId).value.trim();
+    vscode.postMessage({ command: 'updateErrorTier', tier, value: val });
+    flash(inputId);
+  }
+
+  function clearErrorTier(inputId, tier) {
+    document.getElementById(inputId).value = '';
+    vscode.postMessage({ command: 'updateErrorTier', tier, value: '' });
+    flash(inputId);
+  }
+
+  function saveWarningTier(inputId, tier) {
+    const val = document.getElementById(inputId).value.trim();
+    vscode.postMessage({ command: 'updateWarningTier', tier, value: val });
+    flash(inputId);
+  }
+
+  function clearWarningTier(inputId, tier) {
+    document.getElementById(inputId).value = '';
+    vscode.postMessage({ command: 'updateWarningTier', tier, value: '' });
+    flash(inputId);
+  }
 
   // Enabled
   document.getElementById('enabled').addEventListener('change', (e) => {
@@ -304,6 +572,11 @@ export class SettingsPanel {
   // Victory enabled
   document.getElementById('victoryEnabled').addEventListener('change', (e) => {
     vscode.postMessage({ command: 'updateVictoryEnabled', value: e.target.checked });
+  });
+
+  // Terminal enabled
+  document.getElementById('terminalEnabled').addEventListener('change', (e) => {
+    vscode.postMessage({ command: 'updateTerminalEnabled', value: e.target.checked });
   });
 
   // Cooldown slider
