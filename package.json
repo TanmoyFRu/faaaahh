@@ -2,7 +2,7 @@
   "name": "faaaaaahhh",
   "displayName": "Faaaaaahhh",
   "description": "Plays the iconic FAAAH meme sound on every error. Because suffering should be funny.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "tanmoy-debnath",
   "license": "MIT",
   "icon": "assets/icon.png",
@@ -40,6 +40,18 @@
       {
         "command": "faaaaaahhh.testWarningSound",
         "title": "Faaaaaahhh: Test Warning Sound (AA)"
+      },
+      {
+        "command": "faaaaaahhh.testVictorySound",
+        "title": "Faaaaaahhh: Test Victory Sound"
+      },
+      {
+        "command": "faaaaaahhh.openSettings",
+        "title": "Faaaaaahhh: Open Settings Panel"
+      },
+      {
+        "command": "faaaaaahhh.switchSoundPack",
+        "title": "Faaaaaahhh: Switch Sound Pack"
       }
     ],
     "configuration": {
@@ -59,17 +71,69 @@
           "type": "number",
           "default": 0,
           "minimum": 0,
-          "description": "Minimum time (ms) between consecutive sounds. 0 = no cooldown, sounds overlap."
+          "description": "Minimum time (ms) between consecutive sounds per kind. 0 = no cooldown."
         },
         "faaaaaahhh.customSoundPath": {
           "type": "string",
           "default": "",
-          "description": "Path to a custom .wav file for errors. Leave empty to use the built-in FAAAH sound."
+          "description": "Path to a custom .wav for errors. Leave empty to use built-in sounds."
         },
         "faaaaaahhh.customWarningSoundPath": {
           "type": "string",
           "default": "",
-          "description": "Path to a custom .wav file for warnings. Leave empty to use the built-in AA sound."
+          "description": "Path to a custom .wav for warnings. Leave empty to use built-in sounds."
+        },
+        "faaaaaahhh.errorTierSounds": {
+          "type": "object",
+          "default": { "tier1": "", "tier2": "", "tier3": "" },
+          "description": "Custom WAV paths per error tier. tier1 = 1 new error, tier2 = 2-4, tier3 = 5+. Leave empty to use built-in."
+        },
+        "faaaaaahhh.warningTierSounds": {
+          "type": "object",
+          "default": { "tier1": "", "tier2": "" },
+          "description": "Custom WAV paths per warning tier. tier1 = 1 new warning, tier2 = 2+. Leave empty to use built-in."
+        },
+        "faaaaaahhh.customSoundFolder": {
+          "type": "string",
+          "default": "",
+          "description": "Folder of .wav files. A random file is picked on each error. Overrides tier system when set."
+        },
+        "faaaaaahhh.customWarningSoundFolder": {
+          "type": "string",
+          "default": "",
+          "description": "Folder of .wav files for warnings. A random file is picked per warning event."
+        },
+        "faaaaaahhh.victoryEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Play a victory sound when all errors in a file are fixed."
+        },
+        "faaaaaahhh.customVictoryPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .wav for the victory sound. Leave empty to use built-in."
+        },
+        "faaaaaahhh.quietHoursStart": {
+          "type": "string",
+          "default": "",
+          "description": "Start of quiet hours in 24h format (e.g. \"09:00\"). Leave empty to disable quiet hours."
+        },
+        "faaaaaahhh.quietHoursEnd": {
+          "type": "string",
+          "default": "",
+          "description": "End of quiet hours in 24h format (e.g. \"17:00\")."
+        },
+        "faaaaaahhh.soundPack": {
+          "type": "string",
+          "enum": ["meme", "rage", "chill"],
+          "default": "meme",
+          "description": "Active sound pack. Controls which bundled sounds are used when no custom paths are set."
+        },
+        "faaaaaahhh.streakThresholdToast": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "description": "Number of consecutive error events (without any fix) before showing the shame notification."
         }
       }
     }
