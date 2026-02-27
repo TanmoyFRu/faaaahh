@@ -95,7 +95,7 @@ customSoundFolder (random .wav)
 **Manual**
 
 ```
-code --install-extension faaaaaahhh-0.2.0.vsix
+code --install-extension faaaaaahhh-0.2.1.vsix
 ```
 
 ---
