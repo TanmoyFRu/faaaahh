@@ -20,9 +20,18 @@
 
 A Visual Studio Code extension that plays the **FAAAH** meme sound every time an error appears in your editor. Warnings get a softer **AA** instead.
 
-Every error source VS Code exposes is covered: red squiggly underlines, failed build tasks, crashed debug sessions. If your code is broken, you will hear about it.
+Every error source VS Code exposes is covered: red squiggles, failed build tasks, crashed debug sessions, and mistyped terminal commands. If your code is broken, you will hear about it.
 
-The sounds overlap by default. Five errors at once means five simultaneous FAAAH sounds layered on top of each other. This is intentional.
+**v0.1.0 adds:**
+
+- **Severity tiers** — syntax typos play a calm sound; dropping 5 errors at once plays something louder
+- **Victory sound** — when you fix all errors in a file, a sound plays
+- **Terminal mistype sound** — wrong command in the terminal? You'll hear that too
+- **Custom sound folders** — drop your own WAV files in a folder; the extension picks one at random per event
+- **Quiet hours** — mute sounds between configurable hours (e.g. 09:00–17:00 in meetings)
+- **Error streak toast** — consecutive errors with no fixes trigger a shame notification
+- **Sound packs** — switch between `meme`, `rage`, and `chill` packs via Quick Pick
+- **Settings Panel** — a UI to configure every sound slot without touching `settings.json`
 
 ---
 
@@ -32,23 +41,40 @@ The sounds overlap by default. Five errors at once means five simultaneous FAAAH
   <img src="assets/architecture.png" alt="Architecture diagram" width="100%"/>
 </p>
 
-The extension registers listeners on three VS Code event channels:
+The extension registers listeners across four VS Code event channels:
 
 | Source | API | Trigger |
 |---|---|---|
-| Diagnostic errors | `onDidChangeDiagnostics` | New error count exceeds previous count for a given URI |
+| Diagnostic errors | `onDidChangeDiagnostics` | New error count exceeds previous for a URI |
+| Diagnostic warnings | `onDidChangeDiagnostics` | New warning count exceeds previous for a URI |
 | Task failures | `onDidEndTaskProcess` | Task exits with non-zero code |
-| Debug crashes | `onDidTerminateDebugSession` | Debug session terminates |
-| Warnings | `onDidChangeDiagnostics` | New warning count exceeds previous for a given URI |
+| Debug crashes | `onDidTerminateDebugSession` | Debug session terminates unexpectedly |
+| Terminal mistype | `onDidEndTerminalShellExecution` | Shell command exits with non-zero code |
 
-When an event fires, the sound player spawns an independent OS-level process to play the `.wav` file. Each sound runs in its own process — no queue, no cancellation, no mercy.
+When an event fires, the sound player resolves the correct `.wav` file and spawns an OS-level process to play it. The process is detached — sounds overlap naturally, one per event.
+
+### Sound tier system
+
+The diagnostic watcher batches all URIs in a single event and uses the largest delta to pick a tier:
 
 ```
-error 1:  FAAAAAAHHH---------------------
-error 2:    FAAAAAAHHH-------------------
-error 3:      FAAAAAAHHH-----------------
-error 4:        FAAAAAAHHH---------------
-error 5:          FAAAAAAHHH-------------
+1 new error  →  tier 1  →  faaah-easy.wav  (syntax typo, chill)
+2–4 new      →  tier 2  →  faah-mid.wav    (something broke)
+5+ new       →  tier 3  →  faah-high.wav   (absolute chaos)
+
+Syntax error (TS 1000–1999 codes, "expected", "unterminated" etc.)
+             →  always tier 1 regardless of count
+```
+
+Warning tiers follow the same pattern with `aa-low.wav` and `aa-high.wav`.
+
+### Sound resolution order (per slot)
+
+```
+customSoundFolder (random .wav)
+  └─ customSoundPath / tier override (single file)
+       └─ sound pack file (media/<pack>/<file>.wav)
+            └─ built-in bundled fallback (media/<file>.wav)
 ```
 
 ---
@@ -64,7 +90,7 @@ error 5:          FAAAAAAHHH-------------
 **Manual**
 
 ```
-code --install-extension faaaaaahhh-0.0.1.vsix
+code --install-extension faaaaaahhh-0.1.0.vsix
 ```
 
 ---
@@ -80,30 +106,85 @@ Open the Command Palette (`Ctrl+Shift+P`):
 | Command | Description |
 |---|---|
 | `Faaaaaahhh: Toggle Sound On/Off` | Enable or disable all sounds |
-| `Faaaaaahhh: Test Error Sound (FAAAH)` | Play the error sound once |
-| `Faaaaaahhh: Test Warning Sound (AA)` | Play the warning sound once |
+| `Faaaaaahhh: Test Error Sound (FAAAH)` | Play the tier-1 error sound |
+| `Faaaaaahhh: Test Warning Sound (AA)` | Play the tier-1 warning sound |
+| `Faaaaaahhh: Test Victory Sound` | Play the victory sound |
+| `Faaaaaahhh: Open Settings Panel` | Open the graphical settings UI |
+| `Faaaaaahhh: Switch Sound Pack` | Pick `meme`, `rage`, or `chill` via Quick Pick |
+
+### Settings Panel
+
+`Faaaaaahhh: Open Settings Panel` opens a webview with live controls:
+
+- Master switches for errors, warnings, victory, terminal sounds
+- Cooldown slider (0–10 000 ms) with live preview
+- Error streak shame threshold
+- Quiet hours time pickers
+- Custom WAV path inputs for every sound slot (tier 1/2/3, warning tier 1/2, victory, terminal)
+
+Changes apply to your global VS Code settings instantly.
 
 ### Status Bar
 
-A **FAAAH** button sits in the bottom-right status bar. Click it to toggle on/off. The icon switches between `unmute` and `mute` to reflect the current state.
+A **FAAAH** button sits in the bottom-right status bar. Click it to toggle on/off.
+
+- `$(unmute) FAAAH` — sounds active
+- `$(mute) FAAAH` — sounds disabled
+- `$(mute) FAAAH (quiet)` — quiet hours are currently active
 
 ---
 
 ## Configuration
 
-All settings live under `faaaaaahhh.*` in your VS Code settings.
+All settings live under `faaaaaahhh.*` in VS Code settings (`Ctrl+,`).
+
+### General
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
 | `faaaaaahhh.enabled` | `boolean` | `true` | Master switch for all sounds |
-| `faaaaaahhh.warningsEnabled` | `boolean` | `true` | Play AA on warnings |
-| `faaaaaahhh.cooldownMs` | `number` | `0` | Minimum ms between sounds. `0` = no cooldown, full overlap |
-| `faaaaaahhh.customSoundPath` | `string` | `""` | Absolute path to a custom `.wav` for errors |
-| `faaaaaahhh.customWarningSoundPath` | `string` | `""` | Absolute path to a custom `.wav` for warnings |
+| `faaaaaahhh.warningsEnabled` | `boolean` | `true` | Play AA sound on new warnings |
+| `faaaaaahhh.victoryEnabled` | `boolean` | `true` | Play victory sound when a file's errors drop to zero |
+| `faaaaaahhh.terminalSoundEnabled` | `boolean` | `true` | Play sound when a terminal command fails |
+| `faaaaaahhh.cooldownMs` | `number` | `0` | Minimum ms between sounds per kind. `0` = instant overlap |
+| `faaaaaahhh.soundPack` | `string` | `"meme"` | Active pack: `meme`, `rage`, or `chill` |
+| `faaaaaahhh.streakThresholdToast` | `number` | `10` | Consecutive errors before showing the shame notification |
 
-**Overlap behavior**: With `cooldownMs` set to `0` (default), every new error spawns its own audio process immediately. Set it to `3000` or higher if you want a grace period between sounds.
+### Quiet Hours
 
-**Custom sounds**: Point `customSoundPath` to any `.wav` file on your system. The extension does not transcode — the file must be a valid WAV.
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `faaaaaahhh.quietHoursStart` | `string` | `""` | Start of silent window in 24h format, e.g. `"22:00"` |
+| `faaaaaahhh.quietHoursEnd` | `string` | `""` | End of silent window, e.g. `"08:00"`. Supports overnight ranges. |
+
+### Custom Sound Paths
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `faaaaaahhh.customSoundFolder` | `string` | `""` | Folder of `.wav` files. A random file is picked per error event. Overrides tiers. |
+| `faaaaaahhh.customSoundPath` | `string` | `""` | Single `.wav` for all errors (legacy override) |
+| `faaaaaahhh.errorTierSounds` | `object` | `{}` | Per-tier WAV paths: `{ "tier1": "", "tier2": "", "tier3": "" }` |
+| `faaaaaahhh.customWarningSoundFolder` | `string` | `""` | Folder of `.wav` files for warnings. Random pick per event. |
+| `faaaaaahhh.customWarningSoundPath` | `string` | `""` | Single `.wav` for all warnings (legacy override) |
+| `faaaaaahhh.warningTierSounds` | `object` | `{}` | Per-tier WAV paths: `{ "tier1": "", "tier2": "" }` |
+| `faaaaaahhh.customVictoryPath` | `string` | `""` | Custom `.wav` for the victory sound |
+| `faaaaaahhh.customTerminalSoundPath` | `string` | `""` | Custom `.wav` for terminal mistype sounds |
+
+---
+
+## Bundled sounds
+
+| File | Plays when |
+|---|---|
+| `faaah-easy.wav` | Syntax error, or 1 new error |
+| `faah-mid.wav` | 2–4 new errors at once |
+| `faah-high.wav` | 5+ new errors at once |
+| `faah.wav` | Ultimate fallback for all error tiers |
+| `aa-low.wav` | 1 new warning |
+| `aa-high.wav` | 2+ new warnings at once |
+| `aa.wav` | Fallback for all warning tiers |
+| `victory.wav` | All errors in a file fixed |
+| `ahhhh.wav` | Terminal command failed / not recognized |
 
 ---
 
@@ -113,7 +194,7 @@ All settings live under `faaaaaahhh.*` in your VS Code settings.
 |---|---|---|
 | Windows | `powershell -File play.ps1` | Uses `System.Media.SoundPlayer`. Each sound is a separate PowerShell process. |
 | macOS | `afplay` | Native. No dependencies. |
-| Linux | `paplay` / `aplay` | Falls back to `aplay` if PulseAudio is unavailable. |
+| Linux | `paplay` → `aplay` | Falls back to `aplay` if PulseAudio is unavailable. |
 
 ---
 
@@ -122,21 +203,31 @@ All settings live under `faaaaaahhh.*` in your VS Code settings.
 ```
 faaaaaahhh/
   src/
-    extension.ts               Entry point. Registers watchers, commands, status bar.
-    config.ts                  Reads workspace configuration.
+    extension.ts               Entry point. Commands, status bar, watcher registration.
+    config.ts                  Reads workspace configuration into typed interface.
     player/
-      soundPlayer.ts           Cross-platform audio playback. Process-per-sound.
+      soundPlayer.ts           Tier resolution, quiet hours, cooldown, OS dispatch.
     watchers/
-      diagnosticWatcher.ts     Tracks error/warning counts per URI. Fires on increase.
-      taskWatcher.ts           Listens for non-zero task exit codes.
-      debugWatcher.ts          Listens for debug session termination.
+      diagnosticWatcher.ts     Batched error/warning tracking with tier + streak logic.
+      taskWatcher.ts           Non-zero task exit codes.
+      debugWatcher.ts          Debug session termination.
+      terminalWatcher.ts       Shell command exit codes (VS Code 1.93+) with fallback.
+    webview/
+      settingsPanel.ts         Graphical settings panel (singleton webview).
   media/
-    faah.wav                   Default error sound.
-    aa.wav                     Default warning sound.
-    play.ps1                   Windows helper script for PowerShell playback.
+    faaah-easy.wav             Tier 1 / syntax error sound.
+    faah-mid.wav               Tier 2 error sound.
+    faah-high.wav              Tier 3 error sound.
+    faah.wav                   Error fallback.
+    aa-low.wav                 Warning tier 1.
+    aa-high.wav                Warning tier 2.
+    aa.wav                     Warning fallback.
+    victory.wav                All-errors-fixed sound.
+    ahhhh.wav                  Terminal mistype sound.
+    play.ps1                   Windows PowerShell audio helper.
   assets/
-    hero-banner.svg            Repository banner.
-    architecture.svg           Architecture diagram.
+    hero-banner.png            Repository banner.
+    architecture.png           Architecture diagram.
   dist/
     extension.js               Bundled output (esbuild).
 ```
@@ -170,43 +261,49 @@ npm run build
 npx @vscode/vsce package
 ```
 
-This produces `faaaaaahhh-0.0.1.vsix` in the project root.
-
 ---
 
 ## How the diff engine works
 
-The diagnostic watcher does not simply react to "errors exist." It tracks the error count and warning count per file URI across events. A sound only plays when the count for a URI **increases** compared to the last known state.
-
-This means:
-- Opening a file with 10 existing errors does not trigger 10 sounds
-- Adding one new error to that file triggers exactly one sound
-- Fixing errors triggers nothing
-- Saving a file that re-evaluates and produces the same errors triggers nothing
+The diagnostic watcher tracks the error and warning count per file URI across events. A sound only plays when the count **increases**. The batch across all URIs in one event picks the largest delta to determine the tier.
 
 ```typescript
-const errorCount = diagnostics.filter(
-  (d) => d.severity === vscode.DiagnosticSeverity.Error
-).length;
-const prevErrors = previousErrorCounts.get(key) ?? 0;
-
-if (errorCount > prevErrors) {
-  playFaaah(context);
+// Simplified — see diagnosticWatcher.ts for full logic
+for (const uri of event.uris) {
+  const errorCount = diagnostics.filter(d => d.severity === Error).length;
+  const delta = errorCount - (previousErrorCounts.get(key) ?? 0);
+  if (delta > 0) maxNewErrors = Math.max(maxNewErrors, delta);
 }
+
+// One sound per event batch — tier driven by worst delta
+playSound(context, "error", maxNewErrors);  // 1 → tier1, 2-4 → tier2, 5+ → tier3
 ```
+
+This means:
+- Opening a file with 10 existing errors → no sound
+- Adding one new error to that file → tier 1 sound
+- Adding 5 errors in one save → tier 3 sound
+- Fixing errors → no sound (but zero-out triggers victory)
+- Re-saving without changes → no sound
 
 ---
 
 ## FAQ
 
-**Does this work with Python / Rust / Go / Java / C++?**
-If VS Code can produce diagnostics for it, this extension will react to it. Language-agnostic by design.
+**Does this work with Python / Rust / Go / Java / ESLint / any linter?**
+If VS Code can produce diagnostics for it, this extension reacts to it. Language-agnostic by design.
 
 **Can I use my own sounds?**
-Yes. Set `faaaaaahhh.customSoundPath` to any `.wav` file. The built-in sounds are only used when the custom path is empty.
+Yes — multiple ways. Set individual tier paths in the Settings Panel, point `customSoundFolder` to a folder of WAV files for random picks, or use `customSoundPath` for a single override. The Settings Panel UI (`Ctrl+Shift+P` → "Open Settings Panel") handles it without editing JSON.
 
 **The overlapping is too much.**
-Set `faaaaaahhh.cooldownMs` to `3000` or higher. Or toggle off entirely from the status bar.
+Open the Settings Panel and drag the cooldown slider up. `3000 ms` gives a 3-second grace period between sounds of the same kind.
+
+**Does this fire for every keystroke?**
+No. The diagnostic watcher only fires when the count for a file *increases*. Typing without introducing new errors produces no sound.
+
+**Can I silence it during work hours?**
+Yes. Set quiet hours in the Settings Panel (From / To time pickers). The status bar shows `(quiet)` when active. Supports overnight ranges (e.g. 22:00 to 07:00).
 
 **Does this use AI?**
 No. It is an event listener and a WAV file.
