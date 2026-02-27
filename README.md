@@ -15,7 +15,6 @@
 </p>
 
 ---
-
 ## What is this
 
 A Visual Studio Code extension that plays the **FAAAH** meme sound every time an error appears in your editor. Warnings get a softer **AA** instead.
@@ -95,7 +94,7 @@ customSoundFolder (random .wav)
 **Manual**
 
 ```
-code --install-extension faaaaaahhh-0.2.1.vsix
+code --install-extension faaaaaahhh-0.2.2.vsix
 ```
 
 ---
