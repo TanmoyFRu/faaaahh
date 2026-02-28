@@ -1,138 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" height="640">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap');
     </style>
-    <!-- Arrow marker -->
-    <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5"
-            markerWidth="8" markerHeight="6" orient="auto-start-auto">
+    <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="6" markerHeight="4" orient="auto">
       <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#FF3B3B"/>
     </marker>
-    <marker id="arrow-muted" viewBox="0 0 10 7" refX="10" refY="3.5"
-            markerWidth="8" markerHeight="6" orient="auto-start-auto">
-      <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#4B5068"/>
-    </marker>
+    <linearGradient id="box-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A2E3A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E2130;stop-opacity:1" />
+    </linearGradient>
   </defs>
 
-  <!-- Background -->
-  <rect width="1000" height="520" fill="#0F111A"/>
+  <rect width="1000" height="640" fill="#0F111A"/>
+  <text x="500" y="40" font-family="Inter, system-ui" font-size="14" font-weight="700" fill="#4B5068" text-anchor="middle" letter-spacing="4">SYSTEM ARCHITECTURE</text>
 
-  <!-- Title -->
-  <text x="500" y="38" font-family="Inter, SF Pro, Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#6B7280" text-anchor="middle" letter-spacing="3">ARCHITECTURE</text>
+  <!-- Sources -->
+  <g transform="translate(60, 80)">
+    <rect width="880" height="100" rx="12" fill="#1A1D2E" stroke="#2A2E3A"/>
+    <text x="440" y="-15" font-family="Inter" font-size="11" fill="#4B5068" text-anchor="middle">VS CODE EVENT BUS</text>
+    
+    <g transform="translate(20, 20)">
+      <rect width="200" height="60" rx="8" fill="url(#box-grad)"/>
+      <text x="100" y="35" font-family="Inter" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Diagnostics</text>
+      <text x="100" y="50" font-family="Inter" font-size="9" fill="#FF3B3B" text-anchor="middle">Errors &amp; Warnings</text>
+    </g>
+    <g transform="translate(230, 20)">
+      <rect width="200" height="60" rx="8" fill="url(#box-grad)"/>
+      <text x="100" y="35" font-family="Inter" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Terminals</text>
+      <text x="100" y="50" font-family="Inter" font-size="9" fill="#FF3B3B" text-anchor="middle">Non-zero Exit Codes</text>
+    </g>
+    <g transform="translate(440, 20)">
+      <rect width="200" height="60" rx="8" fill="url(#box-grad)"/>
+      <text x="100" y="35" font-family="Inter" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Task System</text>
+      <text x="100" y="50" font-family="Inter" font-size="9" fill="#FF3B3B" text-anchor="middle">Build Failures</text>
+    </g>
+    <g transform="translate(650, 20)">
+      <rect width="210" height="60" rx="8" fill="url(#box-grad)"/>
+      <text x="105" y="35" font-family="Inter" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Debug Sessions</text>
+      <text x="105" y="50" font-family="Inter" font-size="9" fill="#FF3B3B" text-anchor="middle">Crashes</text>
+    </g>
+  </g>
 
-  <!-- ════════════════════════════════════════ -->
-  <!-- ROW 1: VS Code Event Sources (top row) -->
-  <!-- ════════════════════════════════════════ -->
+  <!-- Processing Core -->
+  <g transform="translate(60, 240)">
+    <rect width="880" height="140" rx="12" fill="#1A1D2E" stroke="#FF3B3B" stroke-opacity="0.3"/>
+    <text x="440" y="-15" font-family="Inter" font-size="11" fill="#4B5068" text-anchor="middle">EXTENSION RUNTIME</text>
+    
+    <g transform="translate(40, 30)">
+      <rect width="240" height="80" rx="8" fill="#252836"/>
+      <text x="120" y="35" font-family="Inter" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Event Batcher</text>
+      <text x="120" y="55" font-family="Inter" font-size="10" fill="#94A3B8" text-anchor="middle">Deltas / Quiet Hours</text>
+      <text x="120" y="70" font-family="Inter" font-size="10" fill="#94A3B8" text-anchor="middle">Cooldown Logic</text>
+    </g>
+    <g transform="translate(320, 30)">
+      <rect width="240" height="80" rx="8" fill="#252836"/>
+      <text x="120" y="35" font-family="Inter" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Tier Router</text>
+      <text x="120" y="55" font-family="Inter" font-size="10" fill="#94A3B8" text-anchor="middle">Severity Detection</text>
+      <text x="120" y="70" font-family="Inter" font-size="10" fill="#94A3B8" text-anchor="middle">Pack Selection</text>
+    </g>
+    <g transform="translate(600, 30)">
+      <rect width="240" height="80" rx="8" fill="#252836"/>
+      <text x="120" y="35" font-family="Inter" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Config Engine</text>
+      <text x="120" y="55" font-family="Inter" font-size="10" fill="#94A3B8" text-anchor="middle">Settings Panel UI</text>
+      <text x="120" y="70" font-family="Inter" font-size="10" fill="#94A3B8" text-anchor="middle">Custom WAV Resolvers</text>
+    </g>
+  </g>
 
-  <!-- Diagnostic Errors -->
-  <rect x="60" y="70" width="200" height="72" rx="6" fill="#2A2E3A"/>
-  <rect x="60" y="70" width="200" height="3" rx="1.5" fill="#FF3B3B"/>
-  <text x="160" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Diagnostic Errors</text>
-  <text x="160" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">onDidChangeDiagnostics</text>
+  <!-- Playback -->
+  <g transform="translate(280, 440)">
+    <rect width="440" height="80" rx="12" fill="#2A2E3A" stroke="#FF3B3B"/>
+    <text x="220" y="45" font-family="Inter" font-size="16" font-weight="700" fill="#F5F5F5" text-anchor="middle">Cross-Platform Sound Player</text>
+    <text x="220" y="65" font-family="Inter" font-size="11" fill="#94A3B8" text-anchor="middle">Spawn independent OS processes (Atomic Overlap)</text>
+  </g>
 
-  <!-- Task Failures -->
-  <rect x="300" y="70" width="200" height="72" rx="6" fill="#2A2E3A"/>
-  <rect x="300" y="70" width="200" height="3" rx="1.5" fill="#FF3B3B"/>
-  <text x="400" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Task Failures</text>
-  <text x="400" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">onDidEndTaskProcess</text>
+  <!-- Connectors -->
+  <line x1="500" y1="180" x2="500" y2="230" stroke="#FF3B3B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="500" y1="380" x2="500" y2="430" stroke="#FF3B3B" stroke-width="2" marker-end="url(#arrow)"/>
 
-  <!-- Debug Crashes -->
-  <rect x="540" y="70" width="200" height="72" rx="6" fill="#2A2E3A"/>
-  <rect x="540" y="70" width="200" height="3" rx="1.5" fill="#FF3B3B"/>
-  <text x="640" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Debug Crashes</text>
-  <text x="640" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">onDidTerminateDebugSession</text>
+  <!-- OS Output Labels -->
+  <g transform="translate(60, 560)">
+    <rect x="0" width="260" height="50" rx="8" fill="#1A1D2E" stroke="#2A2E3A"/>
+    <text x="130" y="30" font-family="Inter" font-size="12" font-weight="600" fill="#94A3B8" text-anchor="middle">Windows: PowerShell Core</text>
+    
+    <rect x="310" width="260" height="50" rx="8" fill="#1A1D2E" stroke="#2A2E3A"/>
+    <text x="440" y="30" font-family="Inter" font-size="12" font-weight="600" fill="#94A3B8" text-anchor="middle">macOS: afplay native</text>
+    
+    <rect x="620" width="260" height="50" rx="8" fill="#1A1D2E" stroke="#2A2E3A"/>
+    <text x="750" y="30" font-family="Inter" font-size="12" font-weight="600" fill="#94A3B8" text-anchor="middle">Linux: PulseAudio / ALSA</text>
+  </g>
 
-  <!-- Warnings -->
-  <rect x="780" y="70" width="160" height="72" rx="6" fill="#2A2E3A"/>
-  <rect x="780" y="70" width="160" height="3" rx="1.5" fill="#FEBC2E"/>
-  <text x="860" y="100" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F5F5" text-anchor="middle">Warnings</text>
-  <text x="860" y="120" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">Severity.Warning</text>
-
-  <!-- ════════════════════════════════════════ -->
-  <!-- Arrows: Sources → Extension Core        -->
-  <!-- ════════════════════════════════════════ -->
-  <line x1="160" y1="142" x2="160" y2="168" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="400" y1="142" x2="400" y2="168" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="640" y1="142" x2="640" y2="168" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="860" y1="142" x2="860" y2="168" stroke="#FEBC2E" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- ════════════════════════════════════════ -->
-  <!-- ROW 2: Extension Core (wide bar)        -->
-  <!-- ════════════════════════════════════════ -->
-  <rect x="60" y="175" width="880" height="80" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
-
-  <!-- Inner boxes inside the core -->
-  <!-- Watcher -->
-  <rect x="80" y="190" width="200" height="48" rx="4" fill="#2A2E3A"/>
-  <text x="180" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Event Watchers</text>
-  <text x="180" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">diagnosticWatcher / taskWatcher / debugWatcher</text>
-
-  <!-- Arrow inside core -->
-  <line x1="288" y1="214" x2="330" y2="214" stroke="#4B5068" stroke-width="1.5" marker-end="url(#arrow-muted)"/>
-
-  <!-- Diff Engine -->
-  <rect x="338" y="190" width="180" height="48" rx="4" fill="#2A2E3A"/>
-  <text x="428" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Diff Engine</text>
-  <text x="428" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">Track counts per URI, fire on new</text>
-
-  <!-- Arrow inside core -->
-  <line x1="526" y1="214" x2="568" y2="214" stroke="#4B5068" stroke-width="1.5" marker-end="url(#arrow-muted)"/>
-
-  <!-- Sound Router -->
-  <rect x="576" y="190" width="160" height="48" rx="4" fill="#2A2E3A"/>
-  <text x="656" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Sound Router</text>
-  <text x="656" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">error → FAAAH / warn → AA</text>
-
-  <!-- Arrow inside core -->
-  <line x1="744" y1="214" x2="778" y2="214" stroke="#4B5068" stroke-width="1.5" marker-end="url(#arrow-muted)"/>
-
-  <!-- Config -->
-  <rect x="786" y="190" width="130" height="48" rx="4" fill="#2A2E3A"/>
-  <text x="851" y="210" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F5F5" text-anchor="middle">Config</text>
-  <text x="851" y="226" font-family="Inter, sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">enabled / cooldown / paths</text>
-
-  <!-- Label: Extension Core -->
-  <text x="500" y="270" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#4B5068" text-anchor="middle" letter-spacing="2">EXTENSION CORE</text>
-
-  <!-- ════════════════════════════════════════ -->
-  <!-- Arrow: Core → Sound Player              -->
-  <!-- ════════════════════════════════════════ -->
-  <line x1="500" y1="280" x2="500" y2="308" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- ════════════════════════════════════════ -->
-  <!-- ROW 3: Sound Player                     -->
-  <!-- ════════════════════════════════════════ -->
-  <rect x="280" y="315" width="440" height="72" rx="6" fill="#2A2E3A"/>
-  <rect x="280" y="384" width="440" height="3" rx="1.5" fill="#FF3B3B"/>
-  <text x="500" y="345" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F5F5F5" text-anchor="middle">soundPlayer.ts</text>
-  <text x="500" y="365" font-family="Inter, sans-serif" font-size="10" fill="#6B7280" text-anchor="middle">Spawn independent process per sound. No queue. No cancel. Pure overlap.</text>
-
-  <!-- ════════════════════════════════════════ -->
-  <!-- Arrows: Player → OS Backends            -->
-  <!-- ════════════════════════════════════════ -->
-  <line x1="360" y1="387" x2="200" y2="430" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="500" y1="387" x2="500" y2="430" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="640" y1="387" x2="800" y2="430" stroke="#FF3B3B" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- ════════════════════════════════════════ -->
-  <!-- ROW 4: OS Audio Backends                -->
-  <!-- ════════════════════════════════════════ -->
-
-  <!-- Windows -->
-  <rect x="100" y="438" width="200" height="56" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
-  <text x="200" y="462" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Windows</text>
-  <text x="200" y="480" font-family="monospace" font-size="9" fill="#6B7280" text-anchor="middle">powershell -File play.ps1</text>
-
-  <!-- macOS -->
-  <rect x="400" y="438" width="200" height="56" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
-  <text x="500" y="462" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">macOS</text>
-  <text x="500" y="480" font-family="monospace" font-size="9" fill="#6B7280" text-anchor="middle">afplay &lt;path&gt;</text>
-
-  <!-- Linux -->
-  <rect x="700" y="438" width="200" height="56" rx="6" fill="#1A1D2E" stroke="#2A2E3A" stroke-width="1"/>
-  <text x="800" y="462" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F5F5" text-anchor="middle">Linux</text>
-  <text x="800" y="480" font-family="monospace" font-size="9" fill="#6B7280" text-anchor="middle">paplay / aplay</text>
-
-  <!-- Bottom accent line -->
-  <rect x="0" y="516" width="1000" height="4" fill="#FF3B3B" opacity="0.4"/>
+  <path d="M400,520 L190,560" stroke="#FF3B3B" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+  <path d="M500,520 L500,560" stroke="#FF3B3B" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+  <path d="M600,520 L810,560" stroke="#FF3B3B" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
 </svg>
