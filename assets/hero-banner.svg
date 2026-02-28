@@ -1,75 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&amp;display=swap');
+      @keyframes vibrate {
+        0% { transform: translate(0,0); }
+        25% { transform: translate(2px, -3px); }
+        50% { transform: translate(-3px, 2px); }
+        75% { transform: translate(3px, 3px); }
+        100% { transform: translate(0,0); }
+      }
+      .faaah { font-family: 'Inter', sans-serif; font-weight: 900; filter: drop-shadow(0 0 15px #FF3B3B); }
+      .shake { animation: vibrate 0.08s infinite; }
     </style>
     <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#0F111A;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1E2130;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#FF3B3B;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF8C3B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A1D2E;stop-opacity:1" />
     </linearGradient>
   </defs>
 
   <!-- Background -->
   <rect width="1200" height="400" fill="url(#bg-grad)"/>
 
-  <!-- VS Code Window Mock -->
-  <rect x="80" y="60" width="440" height="280" rx="12" fill="#1A1D2E" filter="drop-shadow(0 20px 50px rgba(0,0,0,0.5))"/>
-  <!-- Title bar -->
-  <rect x="80" y="60" width="440" height="32" rx="12" fill="#252836"/>
-  <rect x="80" y="84" width="440" height="8" fill="#252836"/>
-  <!-- Window dots -->
-  <circle cx="100" cy="76" r="5" fill="#FF5F57"/>
-  <circle cx="118" cy="76" r="5" fill="#FEBC2E"/>
-  <circle cx="136" cy="76" r="5" fill="#28C840"/>
-  <!-- Title text -->
-  <text x="300" y="81" font-family="Inter, system-ui" font-size="11" fill="#94A3B8" text-anchor="middle">extension.ts — Faaaaaahhh</text>
+  <!-- Chaotic Background Elements (Meme Art Style) -->
+  <g opacity="0.15">
+    <text x="50" y="320" font-family="monospace" font-size="180" fill="#FF3B3B" font-weight="900" transform="rotate(-15)">ERROR</text>
+    <text x="850" y="120" font-family="monospace" font-size="160" fill="#FF3B3B" font-weight="900" transform="rotate(25)">404</text>
+    <text x="350" y="80" font-family="monospace" font-size="120" fill="#FF3B3B" font-weight="900" transform="rotate(5)">SKILL ISSUE</text>
+    <text x="100" y="150" font-family="monospace" font-size="80" fill="#FF3B3B" font-weight="900" transform="rotate(-10)">LINTING...</text>
+  </g>
 
-  <!-- Code lines -->
-  <text x="96" y="118" font-family="monospace" font-size="12" fill="#3D4254">14</text>
-  <text x="96" y="138" font-family="monospace" font-size="12" fill="#3D4254">15</text>
-  <text x="96" y="158" font-family="monospace" font-size="12" fill="#3D4254">16</text>
-  <text x="96" y="178" font-family="monospace" font-size="12" fill="#3D4254">17</text>
+  <!-- Central Meme Text -->
+  <g class="shake">
+    <text x="600" y="220" font-family="'Inter', sans-serif" font-size="160" font-weight="900" fill="#FF3B3B" text-anchor="middle" class="faaah">FAAAAAAHHH</text>
+  </g>
 
-  <!-- Code content -->
-  <text x="120" y="118" font-family="monospace" font-size="12" fill="#C792EA">const</text>
-  <text x="162" y="118" font-family="monospace" font-size="12" fill="#F5F5F5">server</text>
-  <text x="210" y="118" font-family="monospace" font-size="12" fill="#89DDFF">=</text>
-  <text x="224" y="118" font-family="monospace" font-size="12" fill="#82AAFF">createServer</text>
-  <text x="312" y="118" font-family="monospace" font-size="12" fill="#89DDFF">();</text>
+  <!-- Subtitle (More Meme, Less AI) -->
+  <text x="600" y="270" font-family="'Inter', sans-serif" font-size="28" font-weight="900" fill="#F5F5F5" text-anchor="middle" letter-spacing="1">BECAUSE SUFFERING SHOULD BE LOUD.</text>
 
-  <text x="120" y="138" font-family="monospace" font-size="12" fill="#C792EA">const</text>
-  <text x="162" y="138" font-family="monospace" font-size="12" fill="#F5F5F5">port</text>
-  <text x="196" y="138" font-family="monospace" font-size="12" fill="#89DDFF">:</text>
-  <text x="206" y="138" font-family="monospace" font-size="12" fill="#FFCB6B">number</text>
-  <text x="250" y="138" font-family="monospace" font-size="12" fill="#89DDFF">=</text>
-  <text x="264" y="138" font-family="monospace" font-size="12" fill="#C3E88D">"8080"</text>
-  <text x="318" y="138" font-family="monospace" font-size="12" fill="#89DDFF">;</text>
-  <!-- Red squiggly -->
-  <path d="M264,142 l3,-3 l3,3 l3,-3 l3,3 l3,-3 l3,3 l3,-3 l3,3 l3,-3 l3,3 l3,-3 l3,3 l3,-3 l3,3 l3,-3 l3,3" stroke="#FF3B3B" stroke-width="1.5" fill="none"/>
+  <!-- Glitchy Error Box -->
+  <g transform="translate(420, 310)">
+    <rect width="360" height="42" rx="4" fill="#FF3B3B"/>
+    <text x="180" y="28" font-family="monospace" font-size="18" font-weight="900" fill="#0F111A" text-anchor="middle">[ MAXIMUM SKILL ISSUE DETECTED ]</text>
+  </g>
 
-  <!-- Sound waves -->
-  <path d="M540,200 Q560,120 580,200 Q600,280 620,200" stroke="#FF3B3B" stroke-width="3" fill="none" opacity="0.9"/>
-  <path d="M590,200 Q620,80 650,200 Q680,320 710,200" stroke="#FF3B3B" stroke-width="2.5" fill="none" opacity="0.6"/>
-  <path d="M660,200 Q710,40 760,200 Q810,360 860,200" stroke="#FF3B3B" stroke-width="2" fill="none" opacity="0.3"/>
-  <path d="M730,200 Q800,0 870,200 Q940,400 1010,200" stroke="#FF3B3B" stroke-width="1.5" fill="none" opacity="0.1"/>
-
-  <!-- Product name -->
-  <text x="860" y="160" font-family="Inter, system-ui" font-size="64" font-weight="800" fill="#F5F5F5" text-anchor="middle" letter-spacing="2">FAAAAAAHHH</text>
+  <!-- Chaotic Red Sound Waves -->
+  <path d="M0,200 Q30,50 60,200 Q90,350 120,200 Q150,50 180,200 Q210,350 240,200 Q270,50 300,200 Q330,350 360,200 Q390,50 420,200 Q450,350 480,200 Q510,50 540,200 Q570,350 600,200 Q630,50 660,200 Q690,350 720,200 Q750,50 780,200 Q810,350 840,200 Q870,50 900,200 Q930,350 960,200 Q990,50 1020,200 Q1050,350 1080,200 Q1110,50 1140,200 Q1170,350 1200,200" stroke="#FF3B3B" stroke-width="6" fill="none" opacity="0.4"/>
   
-  <!-- Subtle Gradient Accent to Title -->
-  <text x="860" y="160" font-family="Inter, system-ui" font-size="64" font-weight="800" fill="url(#accent-grad)" text-anchor="middle" letter-spacing="2" opacity="0.8">FAAAAAAHHH</text>
-
-  <!-- Tagline -->
-  <text x="860" y="200" font-family="Inter, system-ui" font-size="16" fill="#94A3B8" text-anchor="middle" font-weight="400">Auditory feedback for every diagnostic failure.</text>
-
-  <!-- Version badge -->
-  <rect x="810" y="230" width="100" height="28" rx="14" fill="#252836"/>
-  <text x="860" y="248" font-family="Inter, system-ui" font-size="12" fill="#94A3B8" text-anchor="middle" font-weight="600">v0.2.2</text>
+  <!-- Subtle High Frequency -->
+  <path d="M0,200 Q15,100 30,200 Q45,300 60,200 Q75,100 90,200 Q105,300 120,200 Q135,100 150,200 Q165,300 180,200 Q195,100 210,200 Q225,300 240,200 Q255,100 270,200" stroke="#F5F5F5" stroke-width="2" fill="none" opacity="0.2" transform="translate(900, 0)"/>
 
   <!-- Bottom Accent -->
-  <rect x="0" y="392" width="1200" height="8" fill="url(#accent-grad)"/>
+  <rect x="0" y="390" width="1200" height="10" fill="#FF3B3B"/>
 </svg>
