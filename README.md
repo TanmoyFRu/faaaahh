@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero-banner.svg" alt="FAAAAAAHHH" width="100%"/>
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/hero-banner.svg" alt="FAAAAAAHHH" width="100%"/>
 </p>
 
 <p align="center">
@@ -36,7 +36,7 @@ Whether it's a red squiggle, a failed build task, a crashed debug session, or a 
 ## How it Works
 
 <p align="center">
-  <img src="assets/architecture.svg" alt="Architecture" width="100%"/>
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/architecture.svg" alt="Architecture" width="100%"/>
 </p>
 
 The extension monitors four distinct VS Code event channels:
@@ -97,7 +97,7 @@ code --install-extension faaaaaahhh-0.2.2.vsix
 ---
 
 <p align="center">
-  <img src="assets/icon.png" width="64" height="64"/><br/>
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/icon.png" width="64" height="64"/><br/>
   <sub>Built by <a href="https://github.com/TanmoyFRu">Tanmoy Debnath</a></sub><br/>
   <a href="LICENSE">MIT License</a>
 </p>
