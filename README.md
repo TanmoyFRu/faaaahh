@@ -12,6 +12,9 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-F5F5F5?style=flat-square" alt="License"/>
   </a>
+  <a href="https://www.buymeacoffee.com/tanmoydn">
+    <img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee"/>
+  </a>
 </p>
 
 ---
