@@ -16,24 +16,24 @@
 
 ---
 
-## 🌩️ Auditory Feedback for Diagnostic Chaos
+## Auditory Feedback for Diagnostic Chaos
 
-**Faaaaaahhh** is a Visual Studio Code extension designed to turn your developer suffering into high-fidelity entertainment. Every time a new error hits your editor, it plays the iconic **FAAAH** meme sound. Warnings? They get a softer, slightly less judgmental **AA**.
+**Faaaaaahhh** is a Visual Studio Code extension designed to turn developer suffering into high-fidelity entertainment. Every time a new error hits your editor, it plays the iconic **FAAAH** meme sound. Warnings get a softer, slightly less judgmental **AA**.
 
 Whether it's a red squiggle, a failed build task, a crashed debug session, or a mistyped terminal command — if your code is broken, everyone in the room will know.
 
-### 🌟 Key Features
+### Key Features
 
-- **📊 Severity Tiers** — Minor syntax typos are chill. Dropping 10 errors at once triggers high-frequency chaos.
-- **🔊 Smart Audio Engine** — Works natively on Windows, macOS, and Linux with independent process spawning for realistic overlapping.
-- **⚙️ Settings Panel** — A graphical UI to tune volume, cooldowns, and quiet hours without touching JSON.
-- **📁 Sound Packs** — Switch between `Meme`, `Rage`, and `Chill` modes instantly.
-- **🖥️ Terminal Watcher** — Caught slipping in the terminal? Non-zero exit codes trigger the sound too.
-- **🏅 Victory Mode** — (Opt-in) A satisfying sound for when you finally clear all errors in a file.
+- **Severity Tiers** — Minor syntax typos are chill. Dropping 10 errors at once triggers high-frequency chaos.
+- **Smart Audio Engine** — Works natively on Windows, macOS, and Linux with independent process spawning for realistic overlapping.
+- **Settings Panel** — A graphical UI to tune volume, cooldowns, and quiet hours without touching JSON.
+- **Sound Packs** — Switch between `Meme`, `Rage`, and `Chill` modes instantly.
+- **Terminal Watcher** — Caught slipping in the terminal? Non-zero exit codes trigger the sound too.
+- **Victory Mode** — (Opt-in) A satisfying sound for when you finally clear all errors in a file.
 
 ---
 
-## 🛠️ How it Works
+## How it Works
 
 <p align="center">
   <img src="assets/architecture.svg" alt="Architecture" width="100%"/>
@@ -48,11 +48,11 @@ The extension monitors four distinct VS Code event channels:
 | **Terminal** | `onDidEndTerminalShellExecution` | Command not found or script failure |
 | **Debug** | `onDidTerminateDebugSession` | Session crashes or exits with error |
 
-**The Diff Engine:** We don't scream at you for existing errors. We only trigger sounds when the error count for a specific file **increases**.
+**The Diff Engine:** The extension only triggers sounds when the error count for a specific file **increases**.
 
 ---
 
-## 🎮 Usage & Commands
+## Usage & Commands
 
 Open the Command Palette (`Ctrl+Shift+P`) to access these tools:
 
@@ -63,12 +63,12 @@ Open the Command Palette (`Ctrl+Shift+P`) to access these tools:
 | `Faaaaaahhh: Test Sound` | Preview your current error sound pack |
 | `Faaaaaahhh: Switch Pack` | Cycle between bundled sound profiles |
 
-### 🕒 Quiet Hours
-Don't get embarrassed during a screen share. Set **Quiet Hours** in the Settings Panel to automatically silence all sounds during specific windows (e.g., `09:00` to `17:00`).
+### Quiet Hours
+Set **Quiet Hours** in the Settings Panel to automatically silence all sounds during specific windows (e.g., `09:00` to `17:00`).
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 While the Settings Panel is recommended, you can also configure everything in `settings.json`:
 
@@ -85,7 +85,7 @@ While the Settings Panel is recommended, you can also configure everything in `s
 
 ---
 
-## 📦 Installation
+## Installation
 
 **Marketplace:** Search for `Faaaaaahhh` in the VS Code extensions view.
 
@@ -98,6 +98,6 @@ code --install-extension faaaaaahhh-0.2.2.vsix
 
 <p align="center">
   <img src="assets/icon.svg" width="64" height="64"/><br/>
-  <sub>Built with ❤️ (and 3 AM insanity) by <a href="https://github.com/TanmoyFRu">Tanmoy Debnath</a></sub><br/>
+  <sub>Built by <a href="https://github.com/TanmoyFRu">Tanmoy Debnath</a></sub><br/>
   <a href="LICENSE">MIT License</a>
 </p>
