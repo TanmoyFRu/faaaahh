@@ -1,0 +1,34 @@
+﻿4740109 chore: bump to 0.2.2 with updated extension icon
+3888def chore: bump version to 0.2.1 ΓÇö README hotfix
+ad14915 docs: update README for v0.2.0 changes
+949e831 chore: bump version to 0.2.0 for marketplace release
+771e370 feat(webview): add volume slider to settings panel General section
+c6eec0b feat(statusbar): show live workspace error count next to FAAAH toggle
+2b4d86a feat(player): pass volume to all platform audio backends
+458b0c5 feat(config): add volume setting (0-100) and default victoryEnabled to false
+1241d7a feat(audio): add volume control to Windows PowerShell playback script
+fc98834 docs: rewrite README for v0.1.0 with all new features and accurate settings
+05a70c9 chore(packaging): exclude gen-pitched-wavs.js from VSIX bundle
+cbe4761 fix(terminal): prevent double-fire and remove over-broad pattern matching
+471cd43 assets: replace placeholder tier WAVs with real pitched sound files
+16158ed assets: add new bundled WAV files for terminal and syntax error sounds
+c1feefc feat(webview): add full custom sound path configuration UI to settings panel
+10c81c1 feat(extension): register new commands, quiet-hours status bar and terminal watcher
+2083818 feat(watcher): add terminal watcher for mistype/command-not-found sounds
+0496966 feat(watcher): add syntax detection, victory, streak toast and event batching
+74564f5 feat(player): add tier system, quiet hours, cooldown, victory and terminal sounds
+ecca7da feat(config): expand FaaaaahhhConfig interface with all v0.1.0 fields
+33dd6bc feat(config): bump version to 0.1.0 and declare all new settings and commands
+7d5a262 feat: add severity tiers, cooldown UI, quiet hours, victory sound, streak toast, sound packs
+31d7c44 feat: add brainrot meme icon, PNG assets, LICENSE, and marketplace fixes
+2d1952c docs: redesign README with premium layout and technical depth
+4d30f47 assets: add hero banner and architecture diagram SVGs
+933bb54 docs: add README with ascii art, usage guide, and questionable humor
+ca4c375 feat: add faaah and aa sound files
+4461706 feat: add extension entry point with commands and status bar
+8f75dde feat: add debug watcher for session crashes
+648c085 feat: add task watcher for build failures
+3a39cfa feat: add diagnostic watcher for lint/type errors and warnings
+7575c2c feat: add extension config reader
+6ee35ec feat: add cross-platform sound player engine
+aa44b7d init: scaffold project with package.json, tsconfig, esbuild bundler

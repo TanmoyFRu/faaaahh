@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(powershell -NoProfile -WindowStyle Hidden -Command \"\\(New-Object Media.SoundPlayer ''d:/Faaaaaahhh/media/faah.wav''\\).PlaySync\\(\\); Write-Host ''faah.wav OK''\")",
+      "Bash(powershell -NoProfile -WindowStyle Hidden -Command \"\\(New-Object Media.SoundPlayer ''d:/Faaaaaahhh/media/aa.wav''\\).PlaySync\\(\\); Write-Host ''aa.wav OK''\")",
+      "Bash(powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File \"d:/Faaaaaahhh/media/play.ps1\" -Path \"d:/Faaaaaahhh/media/faah.wav\")",
+      "Bash(powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File \"d:/Faaaaaahhh/media/play.ps1\" -Path \"d:/Faaaaaahhh/media/aa.wav\")"
+    ]
+  }
+}

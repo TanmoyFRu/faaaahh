@@ -2,7 +2,7 @@
   "name": "faaaaaahhh",
   "displayName": "Faaaaaahhh",
   "description": "Plays the iconic FAAAH meme sound on every error. Because suffering should be funny.",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "publisher": "tanmoy-debnath",
   "license": "MIT",
   "icon": "assets/icon.png",
@@ -85,12 +85,19 @@
         },
         "faaaaaahhh.errorTierSounds": {
           "type": "object",
-          "default": { "tier1": "", "tier2": "", "tier3": "" },
+          "default": {
+            "tier1": "",
+            "tier2": "",
+            "tier3": ""
+          },
           "description": "Custom WAV paths per error tier. tier1 = 1 new error, tier2 = 2-4, tier3 = 5+. Leave empty to use built-in."
         },
         "faaaaaahhh.warningTierSounds": {
           "type": "object",
-          "default": { "tier1": "", "tier2": "" },
+          "default": {
+            "tier1": "",
+            "tier2": ""
+          },
           "description": "Custom WAV paths per warning tier. tier1 = 1 new warning, tier2 = 2+. Leave empty to use built-in."
         },
         "faaaaaahhh.customSoundFolder": {
@@ -125,7 +132,11 @@
         },
         "faaaaaahhh.soundPack": {
           "type": "string",
-          "enum": ["meme", "rage", "chill"],
+          "enum": [
+            "meme",
+            "rage",
+            "chill"
+          ],
           "default": "meme",
           "description": "Active sound pack. Controls which bundled sounds are used when no custom paths are set."
         },
