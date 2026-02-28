@@ -97,7 +97,7 @@ code --install-extension faaaaaahhh-0.2.2.vsix
 ---
 
 <p align="center">
-  <img src="assets/icon.svg" width="64" height="64"/><br/>
+  <img src="assets/icon.png" width="64" height="64"/><br/>
   <sub>Built by <a href="https://github.com/TanmoyFRu">Tanmoy Debnath</a></sub><br/>
   <a href="LICENSE">MIT License</a>
 </p>
