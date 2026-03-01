@@ -35,6 +35,10 @@ Whether it's a red squiggle, a failed build task, a crashed debug session, or a 
 
 ## How it Works
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/idk_why/main/assets/architecture.jpg" alt="Architecture"/>
+</p>
+
 The extension monitors four distinct VS Code event channels:
 
 | Channel | Triggering Event | Sound |
