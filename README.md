@@ -1,4 +1,6 @@
-<h1 align="center">FAAAAAAHHH</h1>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/hero-banner.svg" alt="FAAAAAAHHH" width="100%"/>
+</p>
 
 <p align="center">
   <a href="https://marketplace.visualstudio.com/items?itemName=tanmoy-debnath.faaaaaahhh">
@@ -33,38 +35,9 @@ Whether it's a red squiggle, a failed build task, a crashed debug session, or a 
 
 ## How it Works
 
-```mermaid
-graph TD
-    subgraph VS_Code_Events
-        D[Diagnostics]
-        T[Tasks]
-        TM[Terminal]
-        DB[Debug Session]
-    end
-
-    subgraph Extension_Runtime
-        EB[Event Batcher]
-        TR[Tier Router]
-        CE[Config Engine]
-    end
-
-    subgraph OS_Layer
-        WP[Windows: PowerShell]
-        MP[macOS: afplay]
-        LP[Linux: PulseAudio]
-    end
-
-    D --> EB
-    T --> EB
-    TM --> EB
-    DB --> EB
-
-    EB --> TR
-    TR --> CE
-    CE --> WP
-    CE --> MP
-    CE --> LP
-```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/architecture.svg" alt="Architecture" width="100%"/>
+</p>
 
 The extension monitors four distinct VS Code event channels:
 
@@ -118,7 +91,7 @@ While the Settings Panel is recommended, you can also configure everything in `s
 
 **Manual:**
 ```bash
-code --install-extension faaaaaahhh-0.3.3.vsix
+code --install-extension faaaaaahhh-0.2.2.vsix
 ```
 
 ---
