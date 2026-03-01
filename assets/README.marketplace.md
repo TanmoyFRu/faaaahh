@@ -35,39 +35,6 @@ Whether it's a red squiggle, a failed build task, a crashed debug session, or a 
 
 ## How it Works
 
-```mermaid
-graph TD
-    subgraph VS_Code_Events
-        D[Diagnostics]
-        T[Tasks]
-        TM[Terminal]
-        DB[Debug Session]
-    end
-
-    subgraph Extension_Runtime
-        EB[Event Batcher]
-        TR[Tier Router]
-        CE[Config Engine]
-    end
-
-    subgraph OS_Layer
-        WP[Windows: PowerShell]
-        MP[macOS: afplay]
-        LP[Linux: PulseAudio]
-    end
-
-    D --> EB
-    T --> EB
-    TM --> EB
-    DB --> EB
-
-    EB --> TR
-    TR --> CE
-    CE --> WP
-    CE --> MP
-    CE --> LP
-```
-
 The extension monitors four distinct VS Code event channels:
 
 | Channel | Triggering Event | Sound |
