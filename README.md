@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/hero-banner.svg" alt="FAAAAAAHHH" width="100%"/>
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/hero-banner.jpg" alt="FAAAAAAHHH" width="100%"/>
 </p>
 
 <p align="center">
@@ -34,10 +34,6 @@ Whether it's a red squiggle, a failed build task, a crashed debug session, or a 
 ---
 
 ## How it Works
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/architecture.svg" alt="Architecture" width="100%"/>
-</p>
 
 The extension monitors four distinct VS Code event channels:
 
