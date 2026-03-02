@@ -2,13 +2,13 @@
   "name": "faaaaaahhh",
   "displayName": "Faaaaaahhh",
   "description": "Plays the iconic FAAAH meme sound on every error. Because suffering should be funny.",
-  "version": "0.3.7",
+  "version": "0.3.10",
   "publisher": "tanmoy-debnath",
   "license": "MIT",
   "icon": "assets/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TanmoyFRu/idk_why.git"
+    "url": "https://github.com/TanmoyFRu/faaaahh.git"
   },
   "engines": {
     "vscode": "^1.85.0"

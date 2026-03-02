@@ -1,0 +1,20 @@
+﻿node.exe :  ERROR  SVGs are 
+restricted in README.md; 
+please use other file image 
+formats, such as PNG: https://
+github.com/TanmoyFRu/idk_why/r
+aw/HEAD/assets/hero-banner.svg
+At C:\Program 
+Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: ( ERROR  S  
+  VGs ar...hero-banner.svg:   
+ String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 

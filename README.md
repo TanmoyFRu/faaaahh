@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/TanmoyFRu/idk_why/main/assets/hero-banner.jpg" alt="FAAAAAAHHH" width="100%"/>
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/hero-banner.jpg" alt="FAAAAAAHHH" width="100%"/>
 </p>
 
 <p align="center">
@@ -91,13 +91,13 @@ While the Settings Panel is recommended, you can also configure everything in `s
 
 **Manual:**
 ```bash
-code --install-extension faaaaaahhh-0.3.7.vsix
+code --install-extension faaaaaahhh-0.3.9.vsix
 ```
 
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/TanmoyFRu/idk_why/main/assets/icon.png" width="64" height="64"/><br/>
+  <img src="https://raw.githubusercontent.com/TanmoyFRu/faaaahh/main/assets/icon.png" width="64" height="64"/><br/>
   <sub>Built by <a href="https://github.com/TanmoyFRu">Tanmoy Debnath</a></sub><br/>
   <a href="LICENSE">MIT License</a>
 </p>

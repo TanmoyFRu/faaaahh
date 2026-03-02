@@ -1,16 +1,9 @@
-param([string]$Path, [int]$Volume = 100)
-
-if ($Volume -ge 100) {
-  (New-Object Media.SoundPlayer $Path).PlaySync()
-  exit
-}
-
 try {
   Add-Type -AssemblyName PresentationCore
   $player = New-Object System.Windows.Media.MediaPlayer
-  $uri = New-Object System.Uri($Path, [System.UriKind]::Absolute)
+  $uri = New-Object System.Uri("d:\Faaaaaahhh\media\ahhhh.wav", [System.UriKind]::Absolute)
   $player.Open($uri)
-  $player.Volume = [Math]::Max(0.0, [Math]::Min(1.0, $Volume / 100.0))
+  $player.Volume = 0.5
   $player.Play()
 
   $ticks = 0
@@ -21,12 +14,14 @@ try {
 
   if ($player.NaturalDuration.HasTimeSpan) {
       $duration = $player.NaturalDuration.TimeSpan.TotalMilliseconds
+      Write-Host "Duration ($duration) ms"
       Start-Sleep -Milliseconds ($duration + 50)
   } else {
+      Write-Host "No timespan"
       Start-Sleep -Seconds 2
   }
   
   $player.Close()
 } catch {
-  (New-Object Media.SoundPlayer $Path).PlaySync()
+  Write-Host "Error"
 }
